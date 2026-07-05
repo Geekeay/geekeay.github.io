@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Java 5 → Java 8: 15 Hands-On Exercises</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1a2332;
+    --paper:#f6f8fc;
+    --card:#ffffff;
+    --jvm-blue:#2e5eaa;
+    --deep-blue:#1e3a6e;
+    --amber:#e8890c;
+    --amber-soft:#fdf3e3;
+    --mist:#dce4f0;
+    --slate:#5a6b84;
+    --code-bg:#0f1a2e;
+    --code-fg:#dbe6f7;
+    --green:#1c7c4a;
+    --green-soft:#e7f5ec;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:18px;line-height:1.65;
+    color:var(--ink);background:var(--paper);
+  }
+
+  header{
+    background:linear-gradient(135deg,var(--deep-blue) 0%,var(--jvm-blue) 100%);
+    color:#fff;padding:60px 24px 52px;
+  }
+  .header-inner{max-width:920px;margin:0 auto}
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:14.5px;letter-spacing:.08em;color:#bcd0f0;margin-bottom:14px}
+  h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(30px,5vw,44px);font-weight:700;line-height:1.15;margin-bottom:14px}
+  .subtitle{font-size:19px;color:#d7e2f5;max-width:680px}
+
+  nav{
+    max-width:920px;margin:0 auto;padding:20px 24px 0;
+    display:flex;flex-wrap:wrap;gap:10px;
+  }
+  nav a{
+    font-family:'JetBrains Mono',monospace;font-size:14px;
+    color:var(--deep-blue);background:var(--card);
+    border:1px solid var(--mist);border-radius:999px;
+    padding:6px 14px;text-decoration:none;
+  }
+  nav a:hover{border-color:var(--jvm-blue)}
+
+  main{max-width:920px;margin:0 auto;padding:36px 24px 72px}
+
+  .topic{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:26px;font-weight:600;color:var(--deep-blue);
+    margin:44px 0 6px;
+  }
+  .topic-note{color:var(--slate);font-size:17px;margin-bottom:20px}
+
+  .ex{
+    background:var(--card);border:1px solid var(--mist);
+    border-radius:12px;padding:26px 30px;margin-bottom:22px;
+  }
+  .ex-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+  .ex-num{
+    font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:500;
+    color:var(--jvm-blue);background:#e9eff9;border-radius:6px;padding:3px 9px;
+  }
+  .ex h3{font-family:'Space Grotesk',sans-serif;font-size:21px;font-weight:600}
+  .diff{
+    font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:.06em;
+    padding:3px 10px;border-radius:999px;margin-left:auto;
+  }
+  .d1{background:var(--green-soft);color:var(--green)}
+  .d2{background:var(--amber-soft);color:#9a5a05}
+  .d3{background:#fdeaea;color:#b03030}
+
+  .ex p{margin:10px 0}
+  .label{
+    font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.08em;
+    color:var(--slate);text-transform:uppercase;margin:16px 0 6px;
+  }
+  pre{
+    background:var(--code-bg);color:var(--code-fg);
+    font-family:'JetBrains Mono',monospace;font-size:15px;line-height:1.55;
+    border-radius:10px;padding:18px 20px;overflow-x:auto;
+    margin:6px 0 14px;
+  }
+  code.inline{
+    font-family:'JetBrains Mono',monospace;font-size:.88em;
+    background:#eef2f9;padding:2px 7px;border-radius:5px;color:var(--deep-blue);
+  }
+  details{
+    background:var(--green-soft);border:1px solid #c9e7d6;
+    border-radius:10px;padding:0;margin-top:14px;overflow:hidden;
+  }
+  summary{
+    cursor:pointer;font-weight:600;color:var(--green);
+    padding:12px 18px;user-select:none;font-size:17px;
+  }
+  summary:hover{background:#dcefe4}
+  .sol{padding:4px 18px 16px}
+  .sol pre{background:var(--code-bg)}
+  .why{font-size:16.5px;color:#2a4a38}
+  .why strong{color:var(--green)}
+
+  /* interview section */
+  .iq{
+    background:var(--card);border:1px solid var(--mist);
+    border-left:6px solid var(--amber);
+    border-radius:12px;padding:24px 30px;margin-bottom:18px;
+  }
+  .iq h4{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:600;color:var(--deep-blue);margin-bottom:8px}
+  .iq p{font-size:17px;margin:6px 0}
+  .iq .tag{
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;
+    color:#9a5a05;background:var(--amber-soft);border-radius:999px;
+    padding:2px 10px;margin-left:8px;vertical-align:middle;
+  }
+
+  .tip{
+    background:var(--deep-blue);color:#dbe5f5;border-radius:12px;
+    padding:28px 32px;margin-top:36px;font-size:18px;
+  }
+  .tip strong{color:#ffc46b}
+
+  footer{max-width:920px;margin:0 auto;padding:0 24px 48px;font-size:15px;color:var(--slate);text-align:center}
+
+  @media (max-width:640px){
+    .ex{padding:20px 18px}
+    pre{font-size:13.5px}
+    .diff{margin-left:0}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="kicker">phase-1://java5-to-java8/exercises</div>
+    <h1>Java 5 → Java 8<br>15 Hands-On Exercises</h1>
+    <p class="subtitle">Rewrite each Java 5 snippet in modern Java 8 idiom. Attempt every task before opening the solution — the struggle is where the learning happens.</p>
+  </div>
+</header>
+
+<nav>
+  <a href="#lambdas">A. Lambdas (1–4)</a>
+  <a href="#streams">B. Streams (5–12)</a>
+  <a href="#optional">C. Optional (13)</a>
+  <a href="#datetime">D. Date/Time (14)</a>
+  <a href="#capstone">E. Capstone (15)</a>
+  <a href="#interview">Interview Questions</a>
+</nav>
+
+<main>
+
+<!-- ============ SECTION A ============ -->
+<h2 class="topic" id="lambdas">A. Lambdas &amp; Functional Interfaces</h2>
+<p class="topic-note">Goal: stop writing anonymous inner classes. Learn the shapes: <code class="inline">Predicate</code>, <code class="inline">Function</code>, <code class="inline">Consumer</code>, <code class="inline">Supplier</code>, and method references.</p>
+
+<div class="ex">
+  <div class="ex-head"><span class="ex-num">01</span><h3>Comparator: sort orders by amount</h3><span class="diff d1">WARM-UP</span></div>
+  <div class="label">Java 5 code</div>
+<pre>Collections.sort(orders, new Comparator&lt;Order&gt;() {
+    public int compare(Order a, Order b) {
+        return Double.compare(a.getAmount(), b.getAmount());
+    }
+});</pre>
+  <p><strong>Task:</strong> rewrite as (a) a lambda, then (b) using <code class="inline">Comparator.comparing</code>. Bonus: sort descending, then by customer name as tie-breaker.</p>
+  <details><summary>Solution</summary><div class="sol">
+<pre>// (a) lambda
+orders.sort((a, b) -&gt; Double.compare(a.getAmount(), b.getAmount()));
+
+// (b) comparing — preferred, reads like English
+orders.sort(Comparator.comparingDouble(Order::getAmount));
+
+// bonus: descending + tie-breaker
+orders.sort(Comparator.comparingDouble(Order::getAmount).reversed()
+        .thenComparing(Order::getCustomerName));</pre>
+  <p class="why"><strong>Why it matters:</strong> <code class="inline">Comparator.comparing / thenComparing</code> chains are the idiomatic answer; writing the two-arg lambda manually is already considered old-fashioned.</p>
+  </div></details>
+</div>
+
+<div class="ex">
+  <div class="ex-head"><span class="ex-num">02</span><h3>Runnable: start a worker thread</h3><span class="diff d1">WARM-UP</span></div>
+  <div class="label">Java 5 code</div>
+<pre>Thread t = new Thread(new Runnable() {
+    public void run() {
+        System.out.println("Processing order queue...");
+    }
+});
+t.start();</pre>
+  <p><strong>Task:</strong> rewrite with a lambda. Then answer: why does this work for <code class="inline">Runnable</code> but not for an interface with two abstract methods?</p>
+  <details><summary>Solution</summary><div class="sol">
+<pre>Thread t = new Thread(() -&gt; System.out.println("Processing order queue..."));
+t.start();</pre>
+  <p class="why"><strong>Why:</strong> a lambda can only implement a <em>functional interface</em> — exactly one abstract method. That's what the compiler targets. <code class="inline">@FunctionalInterface</code> documents and enforces this.</p>
+  </div></details>
+</div>
+
+<div class="ex">
+  <div class="ex-head"><span class="ex-num">03</span><h3>Reusable filter logic with Predicate</h3><span class="diff d2">CORE</span></div>
+  <div class="label">Java 5 code</div>
+<pre>List&lt;Order&gt; result = new ArrayList&lt;Order&gt;();
+for (Order o : orders) {
+    if (o.getAmount() &gt; 1000 &amp;&amp; "DE".equals(o.getCountry())) {
+        result.add(o);
+    }
+}</pre>
+  <p><strong>Task:</strong> define two separate <code class="inline">Predicate&lt;Order&gt;</code> variables (high-value, German) and combine them with <code class="inline">.and()</code>. Filter the list using them (loop is fine here — streams come next).</p>
+  <details><summary>Solution</summary><div class="sol">
+<pre>Predicate&lt;Order&gt; highValue = o -&gt; o.getAmount() &gt; 1000;
+Predicate&lt;Order&gt; german    = o -&gt; "DE".equals(o.getCountry());
+
+Predicate&lt;Order&gt; wanted = highValue.and(german);   // also: .or(), .negate()
+
+List&lt;Order&gt; result = new ArrayList&lt;&gt;();
+for (Order o : orders) {
+    if (wanted.test(o)) result.add(o);
+}</pre>
+  <p class="why"><strong>Why:</strong> behavior becomes a value you can name, pass, combine, and test in isolation. This mental shift is the whole point of Java 8.</p>
+  </div></details>
+</div>
+
+<div class="ex">
+  <div class="ex-head"><span class="ex-num">04</span><h3>Method references — all four kinds</h3><span class="diff d2">CORE</span></div>
+  <p><strong>Task:</strong> rewrite each lambda as a method reference and name which of the four kinds it is:</p>
+<pre>s -&gt; s.toUpperCase()
+s -&gt; Integer.parseInt(s)
+x -&gt; System.out.println(x)
+() -&gt; new ArrayList&lt;String&gt;()</pre>
+  <details><summary>Solution</summary><div class="sol">
+<pre>String::toUpperCase     // 1. instance method of an arbitrary object of a type
+Integer::parseInt       // 2. static method
+System.out::println     // 3. instance method of a particular object
+ArrayList::new          // 4. constructor reference</pre>
+  <p class="why"><strong>Rule of thumb:</strong> if the lambda does nothing but call one existing method with the same arguments, use the reference — it reads better and interviewers expect you to know the four kinds.</p>
+  </div></details>
+</div>
+
+<!-- ============ SECTION B ============ -->
+<h2 class="topic" id="streams">B. Streams API</h2>
+<p class="topic-note">The biggest daily-life change since Java 5. Pattern: <code class="inline">source → intermediate ops (lazy) → terminal op</code>. Assume <code class="inline">class Order { String id; String customer; String status; String country; double amount; List&lt;String&gt; items; }</code>.</p>
+
+<div class="ex">
+  <div class="ex-head"><span class="ex-num">05</span><h3>Filter + transform + collect</h3><span class="diff d1">WARM-UP</span></div>
+  <div class="label">Java 5 code</div>
+<pre>List&lt;String&gt; ids = new ArrayList&lt;String&gt;();
+for (Order o : orders) {
+    if ("ACTIVE".equals(o.getStatus())) {
+        ids.add(o.getId());
+    }
+}
+Collections.sort(ids);</pre>
+  <p><strong>Task:</strong> one stream pipeline.</p>
+  <details><summary>Solution</summary><div class="sol">
+<pre>List&lt;String&gt; ids = orders.stream()
+        .filter(o -&gt; "ACTIVE".equals(o.getStatus()))
+        .map(Order::getId)
+        .sorted()
+        .collect(Collectors.toList());   // Java 16+: .toList()</pre>
+  <p class="why"><strong>Note:</strong> the pipeline does nothing until the terminal operation (<code class="inline">collect</code>) runs — intermediate ops are lazy.</p>
+  </div></details>
+</div>
+
+<div class="ex">
+  <div class="ex-head"><span class="ex-num">06</span><h3>Counting and matching</h3><span class="diff d1">WARM-UP</span></div>
+  <div class="label">Java 5 code</div>
+<pre>int count = 0;
+boolean anyBig = false;
+for (Order o : orders) {
+    if ("DE".equals(o.getCountry())) count++;
+    if (o.getAmount() &gt; 10000) anyBig = true;
+}</pre>
+  <p><strong>Task:</strong> replace with <code class="inline">count()</code> and <code class="inline">anyMatch()</code>. Also look up <code class="inline">allMatch</code> / <code class="inline">noneMatch</code>.</p>
+  <details><summary>Solution</summary><div class="sol">
+<pre>long count = orders.stream()
+        .filter(o -&gt; "DE".equals(o.getCountry()))
+        .count();
+
+boolean anyBig = orders.stream()
+        .anyMatch(o -&gt; o.getAmount() &gt; 10000);</pre>
+  <p class="why"><strong>Why:</strong> <code class="inline">anyMatch</code> short-circuits — it stops at the first hit, unlike the Java 5 loop as written.</p>
+  </div></details>
+</div>
+
+<div class="ex">
+  <div class="ex-head"><span class="ex-num">07</span><h3>Find first — meet Optional</h3><span class="diff d2">CORE</span></div>
+  <div class="label">Java 5 code</div>
+<pre>Order found = null;
+for (Order o : orders) {
+    if (o.getId().equals(searchId)) { found = o; break; }
+}
+if (found != null) {
+    System.out.println(found.getCustomer());
+} else {
+    System.out.println("not found");
+}</pre>
+  <p><strong>Task:</strong> use <code class="inline">findFirst()</code> and handle both cases without any <code class="inline">null</code> or <code class="inline">if</code>.</p>
+  <details><summary>Solution</summary><div class="sol">
+<pre>orders.stream()
+      .filter(o -&gt; o.getId().equals(searchId))
+      .findFirst()
+      .map(Order::getCustomer)
+      .ifPresentOrElse(
+          System.out::println,                    // Java 9+
+          () -&gt; System.out.println("not found"));
+
+// pure Java 8 alternative:
+String name = orders.stream()
+      .filter(o -&gt; o.getId().equals(searchId))
+      .findFirst()
+      .map(Order::getCustomer)
+      .orElse("not found");</pre>
+  <p class="why"><strong>Why:</strong> <code class="inline">findFirst()</code> returns <code class="inline">Optional&lt;Order&gt;</code> — the stream API forces you into null-safe style.</p>
+  </div></details>
+</div>
+
+<div class="ex">
+  <div class="ex-head"><span class="ex-num">08</span><h3>Sum and average with primitive streams</h3><span class="diff d2">CORE</span></div>
+  <div class="label">Java 5 code</div>
+<pre>double total = 0;
+for (Order o : orders) total += o.getAmount();
+double avg = orders.isEmpty() ? 0 : total / orders.size();</pre>
+  <p><strong>Task:</strong> use <code class="inline">mapToDouble</code>. Get sum, average, max in one pass with <code class="inline">summaryStatistics()</code>.</p>
+  <details><summary>Solution</summary><div class="sol">
+<pre>double total = orders.stream().mapToDouble(Order::getAmount).sum();
+
+DoubleSummaryStatistics stats = orders.stream()
+        .mapToDouble(Order::getAmount)
+        .summaryStatistics();
+// stats.getSum(), stats.getAverage(), stats.getMax(), stats.getCount()</pre>
+  <p class="why"><strong>Why:</strong> <code class="inline">IntStream / LongStream / DoubleStream</code> avoid boxing. Know <code class="inline">mapToInt</code>, <code class="inline">boxed()</code>, and <code class="inline">IntStream.range(0, n)</code> as the modern for-loop.</p>
+  </div></details>
+</div>
+
+<div class="ex">
+  <div class="ex-head"><span class="ex-num">09</span><h3>groupingBy — the map-of-lists killer</h3><span class="diff d2">CORE</span></div>
+  <div class="label">Java 5 code</div>
+<pre>Map&lt;String, List&lt;Order&gt;&gt; byStatus = new HashMap&lt;String, List&lt;Order&gt;&gt;();
+for (Order o : orders) {
+    List&lt;Order&gt; list = byStatus.get(o.getStatus());
+    if (list == null) {
+        list = new ArrayList&lt;Order&gt;();
+        byStatus.put(o.getStatus(), list);
+    }
+    list.add(o);
+}</pre>
+  <p><strong>Task:</strong> one line with <code class="inline">Collectors.groupingBy</code>. Then: count per status, and total amount per status (downstream collectors).</p>
+  <details><summary>Solution</summary><div class="sol">
+<pre>Map&lt;String, List&lt;Order&gt;&gt; byStatus = orders.stream()
+        .collect(Collectors.groupingBy(Order::getStatus));
+
+Map&lt;String, Long&gt; countPerStatus = orders.stream()
+        .collect(Collectors.groupingBy(Order::getStatus, Collectors.counting()));
+
+Map&lt;String, Double&gt; totalPerStatus = orders.stream()
+        .collect(Collectors.groupingBy(Order::getStatus,
+                 Collectors.summingDouble(Order::getAmount)));</pre>
+  <p class="why"><strong>Why:</strong> <code class="inline">groupingBy</code> + downstream collectors is the single most asked stream question in interviews. Also learn <code class="inline">partitioningBy</code> (boolean split) and <code class="inline">toMap</code>.</p>
+  </div></details>
+</div>
+
+<div class="ex">
+  <div class="ex-head"><span class="ex-num">10</span><h3>Joining strings</h3><span class="diff d1">WARM-UP</span></div>
+  <div class="label">Java 5 code</div>
+<pre>StringBuilder sb = new StringBuilder();
+for (int i = 0; i &lt; orders.size(); i++) {
+    if (i &gt; 0) sb.append(", ");
+    sb.append(orders.get(i).getId());
+}
+String csv = sb.toString();</pre>
+  <p><strong>Task:</strong> use <code class="inline">Collectors.joining</code> with a delimiter, prefix "[" and suffix "]".</p>
+  <details><summary>Solution</summary><div class="sol">
+<pre>String csv = orders.stream()
+        .map(Order::getId)
+        .collect(Collectors.joining(", ", "[", "]"));   // → [A1, B2, C3]</pre>
+  </div></details>
+</div>
+
+<div class="ex">
+  <div class="ex-head"><span class="ex-num">11</span><h3>flatMap — flatten nested collections</h3><span class="diff d3">STRETCH</span></div>
+  <div class="label">Java 5 code</div>
+<pre>Set&lt;String&gt; allItems = new TreeSet&lt;String&gt;();
+for (Order o : orders) {
+    for (String item : o.getItems()) {
+        allItems.add(item);
+    }
+}</pre>
+  <p><strong>Task:</strong> one pipeline producing a sorted distinct list of all item names across all orders. Explain in one sentence when you need <code class="inline">flatMap</code> instead of <code class="inline">map</code>.</p>
+  <details><summary>Solution</summary><div class="sol">
+<pre>List&lt;String&gt; allItems = orders.stream()
+        .flatMap(o -&gt; o.getItems().stream())
+        .distinct()
+        .sorted()
+        .collect(Collectors.toList());</pre>
+  <p class="why"><strong>The sentence:</strong> use <code class="inline">flatMap</code> when the mapping function returns a stream/collection per element and you want one flat stream instead of a stream of streams — <code class="inline">map</code> would give <code class="inline">Stream&lt;Stream&lt;String&gt;&gt;</code>.</p>
+  </div></details>
+</div>
+
+<div class="ex">
+  <div class="ex-head"><span class="ex-num">12</span><h3>Top-N: sort, limit, skip</h3><span class="diff d2">CORE</span></div>
+  <p><strong>Task:</strong> from <code class="inline">orders</code>, produce the customer names of the <strong>3 highest-value ACTIVE orders</strong>, highest first. No Java 5 version given — write it directly from the requirement.</p>
+  <details><summary>Solution</summary><div class="sol">
+<pre>List&lt;String&gt; top3 = orders.stream()
+        .filter(o -&gt; "ACTIVE".equals(o.getStatus()))
+        .sorted(Comparator.comparingDouble(Order::getAmount).reversed())
+        .limit(3)
+        .map(Order::getCustomer)
+        .collect(Collectors.toList());</pre>
+  <p class="why"><strong>Watch out:</strong> order of operations matters — <code class="inline">map</code> before <code class="inline">sorted</code> would lose access to the amount. Interviewers love asking you to reorder a broken pipeline.</p>
+  </div></details>
+</div>
+
+<!-- ============ SECTION C ============ -->
+<h2 class="topic" id="optional">C. Optional</h2>
+
+<div class="ex">
+  <div class="ex-head"><span class="ex-num">13</span><h3>Kill the null-check pyramid</h3><span class="diff d2">CORE</span></div>
+  <div class="label">Java 5 code</div>
+<pre>String city = "UNKNOWN";
+if (order != null) {
+    Customer c = order.getCustomer();
+    if (c != null) {
+        Address a = c.getAddress();
+        if (a != null &amp;&amp; a.getCity() != null) {
+            city = a.getCity().toUpperCase();
+        }
+    }
+}</pre>
+  <p><strong>Task:</strong> one <code class="inline">Optional</code> chain. Then answer: why should <code class="inline">Optional</code> not be used for fields or method parameters?</p>
+  <details><summary>Solution</summary><div class="sol">
+<pre>String city = Optional.ofNullable(order)
+        .map(Order::getCustomer)
+        .map(Customer::getAddress)
+        .map(Address::getCity)
+        .map(String::toUpperCase)
+        .orElse("UNKNOWN");</pre>
+  <p class="why"><strong>Why not fields/params:</strong> <code class="inline">Optional</code> is designed as a <em>return type</em> to make "maybe absent" explicit at API boundaries. As a field it adds allocation and isn't serializable; as a parameter it forces callers into awkward wrapping — overloads or null-object patterns are cleaner. Also never call <code class="inline">.get()</code> without checking; prefer <code class="inline">orElse / orElseGet / orElseThrow / map / filter</code>.</p>
+  </div></details>
+</div>
+
+<!-- ============ SECTION D ============ -->
+<h2 class="topic" id="datetime">D. java.time</h2>
+
+<div class="ex">
+  <div class="ex-head"><span class="ex-num">14</span><h3>Replace Date/Calendar</h3><span class="diff d2">CORE</span></div>
+  <div class="label">Java 5 code</div>
+<pre>Calendar cal = Calendar.getInstance();
+cal.add(Calendar.DAY_OF_MONTH, 30);
+Date dueDate = cal.getTime();
+SimpleDateFormat fmt = new SimpleDateFormat("dd.MM.yyyy");
+String formatted = fmt.format(dueDate);   // fmt is NOT thread-safe!</pre>
+  <p><strong>Task:</strong> rewrite with <code class="inline">java.time</code>. Also compute the number of days between two dates, and the same instant in the Europe/Berlin and Asia/Kolkata time zones.</p>
+  <details><summary>Solution</summary><div class="sol">
+<pre>LocalDate dueDate = LocalDate.now().plusDays(30);
+String formatted = dueDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+
+long days = ChronoUnit.DAYS.between(orderDate, dueDate);
+
+ZonedDateTime berlin  = ZonedDateTime.now(ZoneId.of("Europe/Berlin"));
+ZonedDateTime kolkata = berlin.withZoneSameInstant(ZoneId.of("Asia/Kolkata"));</pre>
+  <p class="why"><strong>Why:</strong> everything in <code class="inline">java.time</code> is <strong>immutable and thread-safe</strong> — every <code class="inline">plusDays</code> returns a new object. Know the cast of characters: <code class="inline">LocalDate</code>, <code class="inline">LocalDateTime</code>, <code class="inline">Instant</code> (machine time), <code class="inline">ZonedDateTime</code>, <code class="inline">Duration</code>, <code class="inline">Period</code>.</p>
+  </div></details>
+</div>
+
+<!-- ============ SECTION E ============ -->
+<h2 class="topic" id="capstone">E. Capstone</h2>
+
+<div class="ex">
+  <div class="ex-head"><span class="ex-num">15</span><h3>Order report — everything together</h3><span class="diff d3">STRETCH</span></div>
+  <p><strong>Task:</strong> given <code class="inline">List&lt;Order&gt;</code>, produce a report string like:</p>
+<pre>ACTIVE: 12 orders, total 45,230.50 EUR (top: Müller GmbH)
+SHIPPED: 8 orders, total 12,100.00 EUR (top: Schmidt AG)</pre>
+  <p>Requirements: group by status; per group compute count, total amount, and the customer of the highest-value order; sort groups by total descending; join lines with <code class="inline">\n</code>. Use only streams — no loops, no mutable state.</p>
+  <details><summary>Solution</summary><div class="sol">
+<pre>String report = orders.stream()
+    .collect(Collectors.groupingBy(Order::getStatus))
+    .entrySet().stream()
+    .map(e -&gt; {
+        List&lt;Order&gt; group = e.getValue();
+        double total = group.stream().mapToDouble(Order::getAmount).sum();
+        String top = group.stream()
+                .max(Comparator.comparingDouble(Order::getAmount))
+                .map(Order::getCustomer)
+                .orElse("-");
+        return new AbstractMap.SimpleEntry&lt;&gt;(total,
+            String.format("%s: %d orders, total %,.2f EUR (top: %s)",
+                          e.getKey(), group.size(), total, top));
+    })
+    .sorted(Map.Entry.&lt;Double,String&gt;comparingByKey().reversed())
+    .map(Map.Entry::getValue)
+    .collect(Collectors.joining("\n"));</pre>
+  <p class="why"><strong>If you solved this unaided, Phase 1 is done.</strong> Rewriting it later with records (as the pair type) and <code class="inline">toList()</code> makes a nice Phase 3 revisit.</p>
+  </div></details>
+</div>
+
+<!-- ============ INTERVIEW ============ -->
+<h2 class="topic" id="interview">Interview Questions From This Material</h2>
+<p class="topic-note">These are the questions German enterprises and consultancies actually ask at the Java 8 level, roughly in order of frequency.</p>
+
+<div class="iq">
+  <h4>1. What is a functional interface? What does @FunctionalInterface do?<span class="tag">VERY COMMON</span></h4>
+  <p>Interface with exactly one abstract method (SAM). The annotation makes the compiler enforce it. Default and static methods don't count against the limit. Name the big four: Function, Predicate, Consumer, Supplier — and BiFunction/UnaryOperator variants.</p>
+</div>
+
+<div class="iq">
+  <h4>2. Lambda vs. anonymous inner class — differences?<span class="tag">VERY COMMON</span></h4>
+  <p>Key points: lambdas don't create a separate .class file per use (invokedynamic), <code class="inline">this</code> inside a lambda refers to the enclosing instance (not the lambda), lambdas only work for functional interfaces, and captured local variables must be effectively final in both.</p>
+</div>
+
+<div class="iq">
+  <h4>3. Intermediate vs. terminal operations; what does "lazy" mean?<span class="tag">VERY COMMON</span></h4>
+  <p>Intermediate ops (filter, map, sorted) return a stream and do nothing on their own; a terminal op (collect, forEach, count, reduce) triggers the whole pipeline in one pass. Follow-up trap: a stream can be consumed only once — reusing it throws IllegalStateException.</p>
+</div>
+
+<div class="iq">
+  <h4>4. map vs. flatMap?<span class="tag">VERY COMMON</span></h4>
+  <p>map transforms 1→1; flatMap transforms 1→stream and flattens. Classic example: list of orders → all items (exercise 11). Also appears with Optional: Optional.flatMap for methods that themselves return Optional.</p>
+</div>
+
+<div class="iq">
+  <h4>5. How does groupingBy work? What are downstream collectors?<span class="tag">COMMON</span></h4>
+  <p>Be ready to write exercise 9 on a whiteboard: groupingBy(classifier), then with counting(), summingDouble(), mapping(). Mention partitioningBy for boolean splits and toMap (plus its merge-function parameter for duplicate keys — a favorite follow-up).</p>
+</div>
+
+<div class="iq">
+  <h4>6. Optional best practices — when should you NOT use it?<span class="tag">COMMON</span></h4>
+  <p>Return types: yes. Fields, method parameters, collections of Optionals: no. Never .get() without isPresent; prefer orElse/orElseGet/orElseThrow. Bonus point: orElse always evaluates its argument, orElseGet is lazy — a very popular gotcha question.</p>
+</div>
+
+<div class="iq">
+  <h4>7. What is "effectively final" and why do lambdas require it?<span class="tag">COMMON</span></h4>
+  <p>A local variable that's never reassigned after initialization. Lambdas capture values, not variables; allowing mutation would create race conditions and stale-value confusion since the lambda may run later or on another thread.</p>
+</div>
+
+<div class="iq">
+  <h4>8. parallelStream() — when is it a good idea?<span class="tag">COMMON</span></h4>
+  <p>Rarely by default: it uses the shared ForkJoinPool, helps only for large, CPU-bound, stateless, cheap-to-split workloads, and hurts for I/O-bound work or small collections. Saying "I'd measure first and avoid it in request-handling code" is the senior answer.</p>
+</div>
+
+<div class="iq">
+  <h4>9. Default methods — why were they added, and what about the diamond problem?<span class="tag">COMMON</span></h4>
+  <p>Added so interfaces (like Collection) could evolve without breaking implementors — that's how forEach/stream were retrofitted. If two interfaces provide the same default method, the class must override and can delegate via InterfaceName.super.method().</p>
+</div>
+
+<div class="iq">
+  <h4>10. What changed in HashMap internals in Java 8?<span class="tag">SENIOR / TRIVIA</span></h4>
+  <p>Buckets convert from linked lists to red-black trees past a threshold (8), turning worst-case O(n) lookups into O(log n) under heavy collisions. Also: PermGen was replaced by Metaspace in the JVM — both are classic German-enterprise interview trivia.</p>
+</div>
+
+<div class="iq">
+  <h4>11. Why is java.time better than Date/Calendar?<span class="tag">OCCASIONAL</span></h4>
+  <p>Immutable and thread-safe (SimpleDateFormat famously isn't), sane API (months not zero-indexed), clear separation of machine time (Instant) vs. human time (LocalDate/ZonedDateTime), proper time-zone and DST handling.</p>
+</div>
+
+<div class="iq">
+  <h4>12. Whiteboard task you should expect<span class="tag">PRACTICAL</span></h4>
+  <p>"Given a list of employees, return the average salary per department, sorted descending" — or some variant. It's exercises 8 + 9 + 12 combined. If you can write it fluently without an IDE, you're ready for this round.</p>
+</div>
+
+<div class="tip">
+  <strong>How to use this page:</strong> do 2–3 exercises per evening in a real IDE (IntelliJ Community is free) — type them, don't read them. When all 15 are done, redo 9, 13 and 15 from memory a week later. Then move to Phase 2 (Java 9–17) — and revisit exercise 15 with records and <code class="inline" style="background:#2a4a7a;color:#dbe6f7">toList()</code> when you get there.
+</div>
+
+</main>
+
+<footer>Phase 1 · Java 5 → Java 8 · part of the Java + AI/ML skills roadmap · July 2026</footer>
+
+</body>
+</html>
