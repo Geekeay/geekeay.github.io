@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Java + AI/ML Engineer — Granular Skills Checklist</title>
+<meta name="robots" content="noindex, nofollow">
+<title>Ganesh · Learning Hub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -19,142 +20,91 @@
     --slate:#5a6b84;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
   body{
     font-family:'Inter',system-ui,sans-serif;
-    font-size:19px;
-    line-height:1.65;
-    color:var(--ink);
-    background:var(--paper);
+    font-size:18px;line-height:1.6;
+    color:var(--ink);background:var(--paper);
+    min-height:100vh;display:flex;flex-direction:column;
   }
 
-  /* ---------- header ---------- */
   header{
     background:linear-gradient(135deg,var(--deep-blue) 0%,var(--jvm-blue) 100%);
-    color:#fff;
-    padding:64px 24px 56px;
+    color:#fff;padding:64px 24px 56px;
   }
-  .header-inner{max-width:880px;margin:0 auto}
-  .kicker{
-    font-family:'JetBrains Mono',monospace;
-    font-size:15px;
-    letter-spacing:.08em;
-    color:#bcd0f0;
-    margin-bottom:14px;
-  }
-  h1{
-    font-family:'Space Grotesk',sans-serif;
-    font-size:clamp(32px,5vw,46px);
-    font-weight:700;
-    line-height:1.15;
-    margin-bottom:16px;
-  }
-  .subtitle{font-size:20px;color:#d7e2f5;max-width:640px}
-  .legend{
-    display:inline-flex;align-items:center;gap:10px;
-    margin-top:26px;padding:10px 16px;
-    background:rgba(255,255,255,.12);
-    border-radius:8px;font-size:16px;color:#eef3fb;
-  }
-  .legend .dot{
-    width:12px;height:12px;border-radius:3px;background:var(--amber);flex:none;
-  }
+  .header-inner{max-width:820px;margin:0 auto}
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:14.5px;letter-spacing:.08em;color:#bcd0f0;margin-bottom:14px}
+  h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(32px,5vw,44px);font-weight:700;line-height:1.15;margin-bottom:12px}
+  .subtitle{font-size:19px;color:#d7e2f5;max-width:600px}
 
-  /* ---------- main ---------- */
-  main{max-width:880px;margin:0 auto;padding:48px 24px 72px}
+  main{max-width:820px;width:100%;margin:0 auto;padding:44px 24px 64px;flex:1}
 
-  section{
+  .section-label{
+    font-family:'JetBrains Mono',monospace;font-size:14px;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--slate);
+    margin:34px 0 16px;
+  }
+  .section-label:first-child{margin-top:0}
+
+  /* ============ PAGE CARDS ============
+     To add a new page: copy one <a class="page-card"> block,
+     change href, the number, title, and description. Done. */
+  .page-card{
+    display:flex;align-items:flex-start;gap:18px;
     background:var(--card);
     border:1px solid var(--mist);
     border-radius:12px;
-    padding:32px 36px 26px;
-    margin-bottom:26px;
+    padding:22px 26px;
+    margin-bottom:16px;
+    text-decoration:none;color:var(--ink);
+    transition:border-color .15s, transform .15s, box-shadow .15s;
   }
-  section.focus{
-    border-left:6px solid var(--amber);
+  .page-card:hover{
+    border-color:var(--jvm-blue);
+    transform:translateY(-2px);
+    box-shadow:0 6px 18px rgba(30,58,110,.10);
   }
-  .pkg{
-    font-family:'JetBrains Mono',monospace;
-    font-size:14.5px;
-    color:var(--slate);
-    letter-spacing:.02em;
-    margin-bottom:8px;
+  @media (prefers-reduced-motion: reduce){
+    .page-card{transition:none}
+    .page-card:hover{transform:none}
   }
-  .sec-head{
-    display:flex;align-items:center;gap:14px;flex-wrap:wrap;
-    margin-bottom:18px;
+  .num{
+    font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:500;
+    color:var(--jvm-blue);background:#e9eff9;
+    border-radius:8px;padding:6px 11px;flex:none;margin-top:2px;
   }
-  h2{
+  .page-card h2{
     font-family:'Space Grotesk',sans-serif;
-    font-size:28px;
-    font-weight:600;
-    color:var(--deep-blue);
-    line-height:1.2;
+    font-size:21px;font-weight:600;color:var(--deep-blue);
+    margin-bottom:4px;
+  }
+  .page-card p{font-size:16.5px;color:var(--slate)}
+  .arrow{
+    margin-left:auto;align-self:center;flex:none;
+    font-size:20px;color:var(--jvm-blue);
   }
   .badge{
-    font-family:'JetBrains Mono',monospace;
-    font-size:13px;font-weight:500;
-    letter-spacing:.1em;
-    color:#9a5a05;
-    background:var(--amber-soft);
-    border:1px solid #f3d9ae;
-    padding:4px 12px;border-radius:999px;
-    white-space:nowrap;
-  }
-  ul{list-style:none}
-  li{
-    position:relative;
-    padding:9px 0 9px 32px;
-    font-size:19px;
-    border-bottom:1px solid #eef2f8;
-  }
-  li:last-child{border-bottom:none}
-  li::before{
-    content:"";
-    position:absolute;left:4px;top:19px;
-    width:10px;height:10px;border-radius:3px;
-    background:var(--jvm-blue);
-  }
-  section.focus li::before{background:var(--amber)}
-  li strong{font-weight:600}
-  code{
-    font-family:'JetBrains Mono',monospace;
-    font-size:.88em;
-    background:#eef2f9;
-    padding:2px 7px;border-radius:5px;
-    color:var(--deep-blue);
+    display:inline-block;
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;
+    color:#9a5a05;background:var(--amber-soft);
+    border:1px solid #f3d9ae;border-radius:999px;
+    padding:2px 10px;margin-left:8px;vertical-align:middle;
   }
 
-  /* ---------- focus summary ---------- */
-  .summary{
-    background:var(--deep-blue);
-    color:#fff;
-    border:none;
-    border-radius:12px;
-    padding:36px 40px;
+  .placeholder{
+    border:2px dashed var(--mist);border-radius:12px;
+    padding:20px 26px;margin-bottom:16px;
+    color:var(--slate);font-size:16.5px;
+    font-family:'JetBrains Mono',monospace;
   }
-  .summary h2{color:#fff;margin-bottom:16px}
-  .summary p{font-size:19px;line-height:1.7;color:#dbe5f5;margin-bottom:14px}
-  .summary p:last-child{margin-bottom:0}
-  .summary strong{color:#fff}
-  .summary .hl{color:#ffc46b;font-weight:600}
 
   footer{
-    max-width:880px;margin:0 auto;padding:0 24px 48px;
-    font-size:15px;color:var(--slate);text-align:center;
+    text-align:center;padding:24px;
+    font-size:15px;color:var(--slate);
   }
 
-  @media (max-width:640px){
-    body{font-size:18px}
-    section{padding:24px 20px 18px}
-    li{font-size:18px}
-    h2{font-size:24px}
-    .summary{padding:28px 22px}
-  }
-  @media print{
-    header{background:var(--deep-blue)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    section{break-inside:avoid}
+  @media (max-width:560px){
+    .page-card{padding:18px;gap:12px}
+    .arrow{display:none}
   }
 </style>
 </head>
@@ -162,119 +112,60 @@
 
 <header>
   <div class="header-inner">
-    <div class="kicker">german-market://profile/2026-07</div>
-    <h1>Java + AI/ML Engineer<br>Granular Skills Checklist</h1>
-    <p class="subtitle">Everything the German market expects from the hybrid "Java AI Engineer" profile, organised as eight modules.</p>
-    <div class="legend"><span class="dot"></span>Amber-marked modules = highest priority for the fastest employability jump</div>
+    <div class="kicker">geekeay.github.io</div>
+    <h1>Ganesh's Learning Hub</h1>
+    <p class="subtitle">Notes, exercises and roadmaps on the path from enterprise Java to AI engineering.</p>
   </div>
 </header>
 
 <main>
 
-  <section class="focus">
-    <div class="pkg">module 1 &middot; core.java.backend</div>
-    <div class="sec-head"><h2>Core Java &amp; Backend</h2><span class="badge">FOCUS FIRST</span></div>
-    <ul>
-      <li><strong>Java 17 / 21</strong> — records, sealed classes, virtual threads (Loom), pattern matching</li>
-      <li><strong>Spring Boot 3.x, Spring Framework 6</strong> — REST controllers, Spring Data JPA, Spring Security</li>
-      <li>RESTful API design; <code>OpenAPI</code> / Swagger</li>
-      <li>Hibernate / JPA, ORM patterns</li>
-      <li>Maven or Gradle</li>
-      <li>JUnit 5, Mockito, integration testing (<code>Testcontainers</code>)</li>
-      <li>Microservices architecture, event-driven design (Kafka or RabbitMQ)</li>
-    </ul>
-  </section>
+  <div class="section-label">Roadmap</div>
 
-  <section>
-    <div class="pkg">module 2 &middot; lang.python</div>
-    <div class="sec-head"><h2>Python <span style="font-weight:400;font-size:.65em;color:var(--slate)">(secondary but mandatory)</span></h2></div>
-    <ul>
-      <li>Core Python 3 fluency — enough to read and write ML code</li>
-      <li><code>NumPy</code>, <code>pandas</code> for data manipulation</li>
-      <li><code>scikit-learn</code> for classical ML</li>
-      <li>Jupyter notebooks workflow</li>
-    </ul>
-  </section>
+  <a class="page-card" href="Java_AI_ML_Skills_Checklist.html">
+    <span class="num">01</span>
+    <span>
+      <h2>Java + AI/ML Skills Checklist</h2>
+      <p>The full German-market skill map — eight modules with the three highest-priority areas flagged.</p>
+    </span>
+    <span class="arrow">&#8594;</span>
+  </a>
 
-  <section>
-    <div class="pkg">module 3 &middot; ml.fundamentals</div>
-    <div class="sec-head"><h2>ML / AI Fundamentals</h2></div>
-    <ul>
-      <li>Supervised vs. unsupervised learning; regression, classification, clustering</li>
-      <li>Model evaluation — precision/recall, F1, ROC-AUC, cross-validation, overfitting</li>
-      <li>Feature engineering and data preprocessing</li>
-      <li>Deep learning basics — neural networks, embeddings, transformers (conceptual minimum)</li>
-      <li>One framework: <strong>PyTorch</strong> (preferred in 2026) or TensorFlow</li>
-    </ul>
-  </section>
+  <div class="section-label">Phase 1 &middot; Modern Java</div>
 
-  <section class="focus">
-    <div class="pkg">module 4 &middot; genai.llm.integration</div>
-    <div class="sec-head"><h2>GenAI / LLM Integration</h2><span class="badge">FOCUS FIRST</span></div>
-    <ul>
-      <li>Anthropic / OpenAI API integration — chat completions, tool use / function calling</li>
-      <li><strong>Spring AI</strong> or <strong>LangChain4j</strong> — Java-native LLM frameworks; this is the differentiator for Java developers</li>
-      <li>RAG (Retrieval-Augmented Generation) — chunking, embeddings, vector databases (<code>pgvector</code>, Pinecone, Weaviate, Qdrant)</li>
-      <li>Prompt engineering and evaluation</li>
-      <li>Agentic patterns — tool calling, MCP (Model Context Protocol), multi-step orchestration</li>
-      <li>Fine-tuning awareness — when to use vs. RAG vs. prompting</li>
-    </ul>
-  </section>
+  <a class="page-card" href="java8-exercises.html">
+    <span class="num">02</span>
+    <span>
+      <h2>Java 5 &#8594; Java 8 Exercises<span class="badge">IN PROGRESS</span></h2>
+      <p>15 hands-on rewrite tasks &mdash; lambdas, streams, Optional, java.time &mdash; with solutions and the 12 interview questions they generate.</p>
+    </span>
+    <span class="arrow">&#8594;</span>
+  </a>
 
-  <section>
-    <div class="pkg">module 5 &middot; mlops.deployment</div>
-    <div class="sec-head"><h2>MLOps / Deployment</h2></div>
-    <ul>
-      <li>Model serving — exposing models as REST / gRPC services</li>
-      <li><code>MLflow</code> or similar for experiment tracking and model registry</li>
-      <li>Model monitoring and drift detection (conceptual)</li>
-      <li>CI/CD for ML pipelines — GitHub Actions, GitLab CI, Jenkins</li>
-    </ul>
-  </section>
+  <!-- ================================================================
+       ADD NEW PAGES HERE.
+       Copy the block below, uncomment it, and edit:
+         - href   -> your new file name (e.g. java9-17-notes.html)
+         - 03     -> next number
+         - title + description
+       Each committed .html file is reachable at
+       geekeay.github.io/<filename>.html
 
-  <section class="focus">
-    <div class="pkg">module 6 &middot; cloud.infrastructure</div>
-    <div class="sec-head"><h2>Cloud &amp; Infrastructure</h2><span class="badge">FOCUS FIRST</span></div>
-    <ul>
-      <li><strong>One hyperscaler in depth:</strong> AWS (SageMaker, Bedrock, Lambda, ECS/EKS, S3) — or Azure (Azure OpenAI, AKS) / GCP (Vertex AI)</li>
-      <li>Docker — multi-stage builds, image optimisation</li>
-      <li>Kubernetes — deployments, services, Helm basics</li>
-      <li>Terraform / Infrastructure-as-Code basics</li>
-      <li>Monitoring — Prometheus, Grafana, structured logging</li>
-    </ul>
-  </section>
+  <a class="page-card" href="NEW_FILE.html">
+    <span class="num">03</span>
+    <span>
+      <h2>Page Title Here</h2>
+      <p>One-line description of what this page covers.</p>
+    </span>
+    <span class="arrow">&#8594;</span>
+  </a>
+  ================================================================ -->
 
-  <section>
-    <div class="pkg">module 7 &middot; data</div>
-    <div class="sec-head"><h2>Data</h2></div>
-    <ul>
-      <li>SQL — advanced querying; PostgreSQL commonly listed</li>
-      <li>NoSQL exposure — MongoDB, Elasticsearch, Redis</li>
-      <li>Spark basics — appears often for larger-data roles</li>
-      <li>Data pipeline concepts — batch vs. streaming</li>
-    </ul>
-  </section>
-
-  <section>
-    <div class="pkg">module 8 &middot; tooling.practices</div>
-    <div class="sec-head"><h2>Tooling &amp; Practices</h2></div>
-    <ul>
-      <li>Git and code-review workflows</li>
-      <li>Agile / Scrum</li>
-      <li>AI-assisted development tools (Copilot, Claude Code) — increasingly explicitly listed</li>
-      <li>English professional fluency; <strong>German B1+</strong> widens the pool significantly</li>
-    </ul>
-  </section>
-
-  <section class="summary">
-    <h2>Where to Focus First</h2>
-    <p><span class="hl">Modules 1, 4 and 6 give the fastest employability jump.</span> Module 1 is largely covered by existing enterprise Java experience. Module 4 is learnable in 2–3 months of evening projects. A cloud certification — <strong>AWS Developer Associate</strong> or <strong>Solutions Architect Associate</strong> — covers Module 6 credibility.</p>
-    <p>Modules 2–3 can be built in parallel at a lighter depth, since the target is the <strong>engineering side of AI</strong> — not data science.</p>
-  </section>
+  <div class="placeholder">// next: java9-17-notes.html &middot; java21-features.html &middot; spring-ai-lab.html &hellip;</div>
 
 </main>
 
-<footer>Java + AI/ML skills profile · German market · July 2026</footer>
+<footer>Built and hosted on GitHub Pages &middot; updated July 2026</footer>
 
 </body>
 </html>
