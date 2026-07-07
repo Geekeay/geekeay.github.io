@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSA Prep Checklist — AI/ML Roles</title>
+<style>
+  :root {
+    --ink:       #1c1b22;
+    --ink-2:     #4b4956;
+    --ink-3:     #8b8896;
+    --paper:     #fafafd;
+    --paper-2:   #f0f0f6;
+    --paper-3:   #e3e2ec;
+    --rule:      #d7d5e2;
+    --danger:    #c23a3a;
+    --danger-bg: #fdf0f0;
+    --warn:      #92550a;
+    --warn-bg:   #fff8ee;
+    --info:      #3b3591;
+    --info-bg:   #efeefb;
+    --success:   #1f6b2e;
+    --success-bg:#eef8ee;
+    --purple:    #6d28a8;
+    --purple-bg: #f6effc;
+    --teal:      #0f6e63;
+    --teal-bg:   #ebf7f5;
+    --bar-fill:  #3b3591;
+    --mono: 'Cascadia Code', 'Fira Code', 'Courier New', monospace;
+    --sans: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .site-header {
+    background: var(--info);
+    color: #fff;
+    padding: 18px 24px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,.18);
+  }
+  .site-header h1 { font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
+  .site-header h1 .mono-accent { font-family: var(--mono); font-weight: 500; opacity: .85; }
+  .site-header .meta { font-size: 12px; opacity: .75; margin-left: auto; }
+
+  /* ── Overall progress ── */
+  .overall-bar {
+    background: var(--info-bg);
+    border-bottom: 1px solid var(--rule);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .overall-bar .label { font-size: 12px; font-weight: 600; color: var(--info); min-width: 110px; }
+  .bar-track {
+    flex: 1;
+    height: 8px;
+    background: var(--paper-3);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    background: var(--bar-fill);
+    border-radius: 4px;
+    transition: width .35s cubic-bezier(.4,0,.2,1);
+    width: 0%;
+  }
+  .overall-bar .count { font-size: 12px; color: var(--ink-2); min-width: 120px; text-align: right; font-family: var(--mono); }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 24px 20px 60px; }
+
+  /* ── Summary card ── */
+  .summary-card {
+    background: var(--info-bg);
+    border: 1px solid #cfcdf0;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 28px;
+  }
+  .summary-card h2 {
+    font-size: 12px; font-weight: 600; color: var(--info);
+    text-transform: uppercase; letter-spacing: .06em;
+    margin-bottom: 12px;
+  }
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 24px;
+  }
+  @media(max-width:560px){ .summary-grid { grid-template-columns: 1fr; } }
+  .summary-row { display: flex; gap: 8px; padding: 5px 0; border-bottom: 1px solid #dcdaf2; font-size: 13px; }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-key { color: var(--ink-2); flex: 1; }
+  .summary-val { font-weight: 600; color: var(--ink); text-align: right; }
+  .summary-val.highlight { color: var(--success); }
+  .summary-val.mono { font-family: var(--mono); font-weight: 500; }
+
+  /* ── Phase block ── */
+  .phase { margin-bottom: 20px; border-radius: 10px; overflow: hidden; border: 1px solid var(--rule); }
+
+  .phase-header {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .phase-header:hover { filter: brightness(.97); }
+  .phase-title { font-size: 14px; font-weight: 600; flex: 1; }
+  .phase-timing { font-size: 11px; opacity: .75; font-family: var(--mono); }
+  .phase-toggle { font-size: 11px; opacity: .5; transition: transform .2s; }
+  .phase.collapsed .phase-toggle { transform: rotate(-90deg); }
+
+  .phase-danger  .phase-header { background: var(--danger-bg); color: var(--danger); border-bottom: 1px solid #f5d3d3; }
+  .phase-warn    .phase-header { background: var(--warn-bg);   color: var(--warn);   border-bottom: 1px solid #f8ddb8; }
+  .phase-info    .phase-header { background: var(--info-bg);   color: var(--info);   border-bottom: 1px solid #cfcdf0; }
+  .phase-success .phase-header { background: var(--success-bg);color: var(--success);border-bottom: 1px solid #c2e4c0; }
+  .phase-purple  .phase-header { background: var(--purple-bg); color: var(--purple); border-bottom: 1px solid #e2ccf2; }
+  .phase-teal    .phase-header { background: var(--teal-bg);   color: var(--teal);   border-bottom: 1px solid #bfe3de; }
+
+  .phase-progress {
+    padding: 8px 16px;
+    background: var(--paper-2);
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .phase-progress .bar-track { height: 6px; }
+  .phase-progress .pct-label {
+    font-size: 11px; font-family: var(--mono);
+    color: var(--ink-2); min-width: 88px; text-align: right;
+  }
+
+  .phase-body { background: var(--paper); }
+  .phase.collapsed .phase-body,
+  .phase.collapsed .phase-progress { display: none; }
+
+  /* ── Checklist item ── */
+  .item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--paper-3);
+    cursor: pointer;
+    transition: background .12s;
+  }
+  .item:last-child { border-bottom: none; }
+  .item:hover { background: var(--paper-2); }
+  .item.checked { background: #f2f7f2; }
+
+  .cb-wrap { flex-shrink: 0; margin-top: 1px; }
+  input[type=checkbox] {
+    width: 16px; height: 16px;
+    accent-color: var(--success);
+    cursor: pointer;
+  }
+
+  .item-body { flex: 1; min-width: 0; }
+  .item-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  .item.checked .item-label {
+    color: var(--ink-3);
+    text-decoration: line-through;
+  }
+  .item-note { font-size: 11.5px; color: var(--ink-3); margin-top: 3px; line-height: 1.5; }
+  .item-note code, .q-note code {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    background: var(--paper-2);
+    border: 1px solid var(--paper-3);
+    border-radius: 3px;
+    padding: 0 4px;
+    color: var(--info);
+    white-space: nowrap;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 10px; font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 3px;
+    vertical-align: middle;
+    margin-left: 6px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+  .badge-core { background: var(--info-bg); color: var(--info); border: 1px solid #cfcdf0; }
+  .badge-ml   { background: var(--teal-bg); color: var(--teal); border: 1px solid #bfe3de; }
+
+  .o-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 3px;
+    background: var(--purple-bg);
+    color: var(--purple);
+    border: 1px solid #e2ccf2;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  /* ── Complexity reference section ── */
+  .questions-section {
+    margin-top: 28px;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .q-group-label {
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .07em;
+    color: var(--ink-3);
+    padding: 10px 16px 4px;
+    background: var(--paper-2);
+    border-bottom: 1px solid var(--rule);
+  }
+  .q-item {
+    display: flex;
+    gap: 12px;
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--paper-3);
+    align-items: flex-start;
+  }
+  .q-item:last-child { border-bottom: none; }
+  .q-num {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--purple-bg);
+    color: var(--purple);
+    font-size: 10px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+    font-family: var(--mono);
+  }
+  .q-body { flex: 1; }
+  .q-label { font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.4; }
+  .q-note  { font-size: 11.5px; color: var(--ink-3); margin-top: 3px; line-height: 1.5; }
+
+  /* ── Key reminders ── */
+  .reminders {
+    margin-top: 24px;
+    background: var(--info-bg);
+    border: 1px solid #cfcdf0;
+    border-radius: 10px;
+    padding: 16px 20px;
+  }
+  .reminders h3 { font-size: 13px; font-weight: 700; color: var(--info); margin-bottom: 10px; }
+  .reminders ol { padding-left: 18px; }
+  .reminders li { font-size: 13px; color: var(--ink-2); margin-bottom: 7px; line-height: 1.5; }
+  .reminders li:last-child { margin-bottom: 0; }
+
+  .toolbar {
+    display: flex; justify-content: flex-end;
+    margin-bottom: 16px; gap: 10px;
+  }
+  .btn {
+    font-size: 12px; font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--rule);
+    background: white;
+    color: var(--ink-2);
+    cursor: pointer;
+    transition: background .12s;
+  }
+  .btn:hover { background: var(--paper-2); }
+  .btn-danger { border-color: #f5d3d3; color: var(--danger); }
+  .btn-danger:hover { background: var(--danger-bg); }
+
+  .footer {
+    text-align: center;
+    font-size: 11px;
+    color: var(--ink-3);
+    padding: 24px 20px;
+    border-top: 1px solid var(--rule);
+    margin-top: 8px;
+  }
+
+  @media print {
+    .site-header { position: static; }
+    .overall-bar { display: none; }
+    .phase { break-inside: avoid; }
+    .toolbar { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bar-fill, .phase-toggle { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1><span class="mono-accent">O(n)</span> DSA Prep Checklist — AI/ML Roles</h1>
+  <span class="meta">Java → Python track &nbsp;|&nbsp; ~10 weeks</span>
+</header>
+
+<div class="overall-bar">
+  <span class="label">Overall progress</span>
+  <div class="bar-track"><div class="bar-fill" id="overall-fill"></div></div>
+  <span class="count" id="overall-count">0 / 0 completed</span>
+</div>
+
+<div class="container">
+
+  <!-- Summary -->
+  <div class="summary-card">
+    <h2>The coding bar for ML roles — what to expect</h2>
+    <div class="summary-grid">
+      <div>
+        <div class="summary-row"><span class="summary-key">Typical difficulty</span><span class="summary-val mono">LeetCode Medium</span></div>
+        <div class="summary-row"><span class="summary-key">LC Hard frequency</span><span class="summary-val">Rare (mostly Google)</span></div>
+        <div class="summary-row"><span class="summary-key">Coding rounds</span><span class="summary-val">1–2 (fewer than SDE)</span></div>
+        <div class="summary-row"><span class="summary-key">Typical format</span><span class="summary-val">2 problems / 35–45 min</span></div>
+      </div>
+      <div>
+        <div class="summary-row"><span class="summary-key">Problems needed (curated)</span><span class="summary-val mono">~75–150</span></div>
+        <div class="summary-row"><span class="summary-key">Complexity analysis</span><span class="summary-val">Always graded</span></div>
+        <div class="summary-row"><span class="summary-key">Language expected</span><span class="summary-val">Python (not Java)</span></div>
+        <div class="summary-row"><span class="summary-key">Bonus round type</span><span class="summary-val highlight">ML coding in NumPy</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <button class="btn" onclick="expandAll()">Expand all</button>
+    <button class="btn" onclick="collapseAll()">Collapse all</button>
+    <button class="btn btn-danger" onclick="resetAll()">Reset progress</button>
+  </div>
+
+  <!-- Phases injected by JS -->
+  <div id="phases"></div>
+
+  <!-- Complexity reference -->
+  <div class="questions-section" id="questions"></div>
+
+  <!-- Reminders -->
+  <div class="reminders">
+    <h3>Key reminders</h3>
+    <ol>
+      <li><strong>Always state time and space complexity unprompted</strong> — right after your solution works, say "This is O(n) time, O(1) space because…". It is an explicit grading criterion in ML coding rounds.</li>
+      <li><strong>Solve in Python, not Java</strong> — ML interviewers expect Python fluency. Practising DSA in Python doubles as your Python training.</li>
+      <li><strong>Depth on Mediums beats grinding Hards</strong> — ML coding rounds sit at LC Medium. Master ~75–150 curated problems (Blind 75 → NeetCode 150) until you can re-solve them cold two days later.</li>
+      <li><strong>Expect ML-flavoured coding too</strong> — implementing k-means, logistic regression, or attention in pure NumPy is a real round at Google-style loops. Pure LeetCode prep alone is not enough.</li>
+      <li><strong>Talk while you code</strong> — narrate your approach, tradeoffs, and edge cases. Silent perfect code scores lower than spoken good code.</li>
+    </ol>
+  </div>
+
+</div>
+
+<div class="footer">
+  Pattern mastery test: solve it once from scratch, then again two days later without looking.<br>
+  Your progress is saved automatically in your browser.
+</div>
+
+<script>
+const PHASES = [
+  {
+    id: 'p0', color: 'danger',
+    title: 'Phase 0 — Python interview fluency (the Java bridge)', timing: 'Week 1',
+    items: [
+      { label: 'Set up LeetCode account and solve 5 Easy problems in Python', note: 'Goal is comfort with the editor and Python syntax under light pressure — not difficulty.', tag: 'core' },
+      { label: 'Learn Python list/dict/set idioms that replace Java boilerplate', note: 'Slicing <code>arr[i:j]</code>, comprehensions, <code>enumerate()</code>, <code>zip()</code>, tuple unpacking, negative indexing.', tag: 'core' },
+      { label: 'Master the collections module', note: '<code>defaultdict</code>, <code>Counter</code>, <code>deque</code> — these three replace 80% of Java\'s HashMap/Queue ceremony and appear in almost every solution.', tag: 'core' },
+      { label: 'Learn heapq (Python\'s PriorityQueue)', note: 'Min-heap only — negate values for max-heap. Know <code>heappush</code>, <code>heappop</code>, <code>heapify</code>, <code>nlargest</code>.', tag: 'core' },
+      { label: 'Memorise Big-O of Python built-ins', note: '<code>x in list</code> is O(n) but <code>x in set</code> is O(1). <code>list.append</code> O(1) amortised, <code>list.insert(0,·)</code> O(n), <code>sort()</code> O(n log n) Timsort.', tag: 'core' },
+      { label: 'Learn sorted() with custom keys and lambda', note: '<code>sorted(items, key=lambda x: (-x[1], x[0]))</code> — replaces Java Comparators, needed constantly.', tag: 'core' },
+    ]
+  },
+  {
+    id: 'p1', color: 'info',
+    title: 'Phase 1 — Big-O foundations', timing: 'Week 1–2',
+    items: [
+      { label: 'Be able to derive time complexity of any loop structure', note: 'Single loop O(n), nested O(n²), halving loop O(log n), loop + inner halving O(n log n). Practice on your own past Java code.', tag: 'core' },
+      { label: 'Understand space complexity including recursion stack', note: 'Recursive DFS on a tree is O(h) space for the call stack — interviewers specifically probe whether you count it.', tag: 'core' },
+      { label: 'Know amortised analysis (dynamic array growth)', note: 'Why <code>append</code> is O(1) amortised despite occasional O(n) resizes. You know this from Java ArrayList — transfer it.', tag: 'core' },
+      { label: 'Memorise the complexity table of core structures', note: 'Array, hash map, heap, BST, linked list — insert/lookup/delete for each. This is asked directly at screening stage.', tag: 'core' },
+      { label: 'Practice answering "can you do better?"', note: 'The classic follow-up. Usual escape routes: hash map (trade space for time), sorting first, two pointers, binary search.', tag: 'core' },
+    ]
+  },
+  {
+    id: 'p2', color: 'success',
+    title: 'Phase 2 — Arrays, strings & hashing', timing: 'Weeks 2–3',
+    items: [
+      { label: 'Two Sum — the canonical hash map problem', note: 'One pass with <code>dict</code> storing value→index. O(n) time, O(n) space. LC #1.', tag: 'core' },
+      { label: 'Best Time to Buy and Sell Stock', note: 'Track running minimum, one pass. O(n)/O(1). LC #121.', tag: 'core' },
+      { label: 'Valid Anagram + Group Anagrams', note: '<code>Counter</code> comparison, then grouping by sorted-string key. LC #242, #49.', tag: 'core' },
+      { label: 'Maximum Subarray (Kadane\'s algorithm)', note: '<code>current = max(num, current + num)</code>. O(n)/O(1). LC #53 — extremely frequent.', tag: 'core' },
+      { label: 'Longest Substring Without Repeating Characters', note: 'The canonical sliding window problem. Two pointers + set/dict. O(n). LC #3.', tag: 'core' },
+      { label: 'Product of Array Except Self', note: 'Prefix and suffix products, no division. O(n)/O(1) extra. LC #238.', tag: 'core' },
+      { label: 'Subarray Sum Equals K', note: 'Prefix sum + hash map of cumulative sums. The pattern combo that unlocks many problems. LC #560.', tag: 'core' },
+      { label: 'Learn the pattern triggers', note: 'Sorted array → two pointers/binary search. Contiguous subarray → sliding window/Kadane. Range sums → prefix sum. Fast lookup → hash map.', tag: 'core' },
+    ]
+  },
+  {
+    id: 'p3', color: 'warn',
+    title: 'Phase 3 — Linked lists, stacks & queues', timing: 'Week 4',
+    items: [
+      { label: 'Reverse Linked List (iterative and recursive)', note: 'Three-pointer dance: prev, curr, next. The most asked LL problem. LC #206.', tag: 'core' },
+      { label: 'Merge Two Sorted Lists', note: 'Dummy node technique — start with a sentinel to avoid head edge cases. LC #21.', tag: 'core' },
+      { label: 'Linked List Cycle (Floyd\'s fast & slow pointers)', note: 'Two pointers, one moving 2× speed. O(1) space cycle detection. LC #141.', tag: 'core' },
+      { label: 'Valid Parentheses', note: 'The canonical stack problem. Push opens, pop and match on close. LC #20.', tag: 'core' },
+      { label: 'Daily Temperatures (monotonic stack)', note: 'Stack of indices, pop while current is warmer. The monotonic stack pattern appears in many disguises. LC #739.', tag: 'core' },
+      { label: 'LRU Cache', note: 'Hash map + doubly linked list, or Python\'s <code>OrderedDict</code>. A production-relevant design question — your Java caching experience helps. LC #146.', tag: 'core' },
+    ]
+  },
+  {
+    id: 'p4', color: 'purple',
+    title: 'Phase 4 — Trees, graphs & binary search', timing: 'Weeks 5–6',
+    items: [
+      { label: 'All four tree traversals (pre/in/post/level-order)', note: 'Recursive DFS for first three, BFS with <code>deque</code> for level order. Foundation for everything else. LC #94, #102.', tag: 'core' },
+      { label: 'Maximum Depth + Diameter of Binary Tree', note: 'Post-order recursion returning height. Diameter tracked as a side effect. LC #104, #543.', tag: 'core' },
+      { label: 'Validate BST', note: 'Pass down (min, max) bounds — checking only parent/child is the classic wrong answer. LC #98.', tag: 'core' },
+      { label: 'Lowest Common Ancestor', note: 'Recursive: if p and q are in different subtrees, current node is the LCA. LC #236.', tag: 'core' },
+      { label: 'Number of Islands (grid DFS/BFS)', note: 'The canonical graph flood-fill. Mark visited in place. LC #200 — extremely frequent at all companies.', tag: 'core' },
+      { label: 'Course Schedule (topological sort)', note: 'Cycle detection in a directed graph via Kahn\'s algorithm or DFS colouring. Maps directly to ML pipeline DAGs. LC #207.', tag: 'core' },
+      { label: 'Binary Search + rotated array variant', note: 'Get the invariant right: <code>while left <= right</code>. Then LC #33 (rotated) and #153 (min in rotated).', tag: 'core' },
+      { label: 'Search a 2D Matrix', note: 'Treat as one sorted array with index arithmetic — O(log(m·n)). LC #74.', tag: 'core' },
+    ]
+  },
+  {
+    id: 'p5', color: 'teal',
+    title: 'Phase 5 — Heaps, light DP & ML-flavoured coding', timing: 'Weeks 7–8',
+    items: [
+      { label: 'Kth Largest Element + Top K Frequent Elements', note: 'Min-heap of size k → O(n log k). Heaps appear surprisingly often in ML loops (top-K retrieval is real ML work). LC #215, #347.', tag: 'core' },
+      { label: 'K Closest Points to Origin', note: 'Max-heap of size k on distance. Directly mirrors nearest-neighbour retrieval in ML. LC #973.', tag: 'core' },
+      { label: 'Find Median from Data Stream', note: 'Two heaps (max-heap lower half, min-heap upper half). A streaming-statistics classic. LC #295.', tag: 'core' },
+      { label: 'Climbing Stairs + House Robber (1D DP)', note: 'Enough DP to survive: recognise overlapping subproblems, write the recurrence, convert to O(1) space. LC #70, #198.', tag: 'core' },
+      { label: 'Implement k-means clustering in pure NumPy', note: 'Assign points to nearest centroid, update centroids, repeat. A real ML coding round question.', tag: 'ml' },
+      { label: 'Implement logistic regression with gradient descent in NumPy', note: 'Sigmoid, log-loss, vectorised gradient update. Google-style "implement fundamentals in pure Python".', tag: 'ml' },
+      { label: 'Compute pairwise distances without loops', note: 'Vectorise <code>||a-b||²</code> via broadcasting. Tests the exact NumPy skill that separates Java-style loop code from ML-style code.', tag: 'ml' },
+      { label: 'Implement scaled dot-product attention in NumPy', note: 'softmax(QKᵀ/√d)·V — increasingly asked in 2026 LLM-era loops. Stretch goal, high signal.', tag: 'ml' },
+    ]
+  },
+  {
+    id: 'p6', color: 'danger',
+    title: 'Phase 6 — Mock interviews & polish', timing: 'Weeks 9–10',
+    items: [
+      { label: 'Re-solve 20 previously solved problems cold', note: 'The mastery test: if you can\'t re-solve it two days later without looking, you don\'t own the pattern yet.', tag: 'core' },
+      { label: 'Timed drills: 2 Mediums in 35 minutes', note: 'The Meta-style tech screen format. Practise until finishing with 5 minutes to spare for testing.', tag: 'core' },
+      { label: 'Practise narrating while coding', note: 'Approach → tradeoffs → code → test → complexity. Record yourself once; the silence gaps will surprise you.', tag: 'core' },
+      { label: 'Do 2–3 peer or AI mock interviews', note: 'Pramp / interviewing.io / a friend. Real interviews surprise you in ways solo practice can\'t.', tag: 'core' },
+      { label: 'Prepare your edge-case ritual', note: 'Empty input, single element, duplicates, negatives, overflow. Running through these unprompted scores points.', tag: 'core' },
+      { label: 'One dirty-dataset drill: baseline classifier in 30 minutes', note: 'Load CSV → inspect → handle missing values → catch the leaky feature → train baseline → evaluate. The 2026-style practical round.', tag: 'ml' },
+    ]
+  },
+];
+
+const QUESTIONS = [
+  {
+    group: 'Complexity questions interviewers actually ask',
+    items: [
+      { q: 'What is the time and space complexity of your solution?', note: 'Asked after every solution. Answer before they ask — it signals seniority.' },
+      { q: 'Can you do better than O(n²)?', note: 'Usual answers: hash map for O(1) lookup, sort first then two pointers, or binary search on a sorted dimension.' },
+      { q: 'Why is hash map lookup O(1) — and when is it not?', note: 'Hashing + buckets; degrades toward O(n) with collisions. Your Java HashMap knowledge answers this perfectly.' },
+      { q: 'What is the complexity of sorting, and which algorithm does Python use?', note: 'O(n log n). Timsort — a hybrid of merge sort and insertion sort, stable, O(n) on nearly-sorted data.' },
+      { q: 'Does your recursion use extra space?', note: 'Yes — the call stack. Depth of recursion = space cost. Tree DFS is O(h), which is O(n) worst case for a skewed tree.' },
+      { q: 'Why did you choose this data structure?', note: 'Have one sentence ready per structure: heap for top-K, deque for sliding window, set for membership, dict for counting.' },
+    ]
+  },
+  {
+    group: 'Complexity quick-reference (memorise)',
+    items: [
+      { q: 'Hash map (dict/set): insert, lookup, delete — O(1) average', note: 'O(n) worst case under heavy collisions. The single most useful structure in interviews.' },
+      { q: 'Heap: push/pop O(log n), peek O(1), heapify O(n)', note: 'Top-K of n items with a size-k heap: O(n log k) — better than sorting when k ≪ n.' },
+      { q: 'Balanced BST: insert, lookup, delete — O(log n)', note: 'Python has no built-in; mention <code>sortedcontainers</code> if needed. Rarely required in ML loops.' },
+      { q: 'Array: index O(1), search O(n), insert at front O(n)', note: 'Python list = dynamic array (like ArrayList). Use <code>deque</code> when you need O(1) at both ends.' },
+      { q: 'Binary search: O(log n) — only on sorted data', note: 'Also applies to "search the answer space" problems (min capacity, max speed), a favourite Medium pattern.' },
+      { q: 'Graph BFS/DFS: O(V + E) time', note: 'Space O(V) for visited set + queue/stack. Grid problems: V = rows×cols, E ≈ 4V.' },
+    ]
+  },
+  {
+    group: 'Recommended resources (in order)',
+    items: [
+      { q: 'NeetCode 150 (neetcode.io) — your primary problem list', note: 'Free, pattern-organised, video solutions. Covers ~80% of what ML coding rounds test. Start with the Blind 75 subset.' },
+      { q: 'Tech Interview Handbook — pattern cheatsheets per topic', note: 'Free. Read the topic cheatsheet before starting each phase above.' },
+      { q: 'AlgoMonster complexity + pattern stats', note: 'Data-driven view of which patterns each company actually asks. Useful for targeting specific employers.' },
+      { q: 'Deep-ML.com or similar — ML coding problems in NumPy', note: 'For Phase 5: implement ML algorithms from scratch, the round pure LeetCode prep misses.' },
+    ]
+  },
+];
+
+// ── State ─────────────────────────────────────────────────────────────────────
+const STORAGE_KEY = 'dsa_checklist_ml_v1';
+
+function loadState() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; }
+}
+function saveState(state) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
+}
+
+let state = loadState();
+
+// ── Render ────────────────────────────────────────────────────────────────────
+function renderPhases() {
+  const container = document.getElementById('phases');
+  container.innerHTML = '';
+
+  PHASES.forEach(phase => {
+    const total  = phase.items.length;
+    const done   = phase.items.filter((_, i) => state[`${phase.id}_${i}`]).length;
+    const pct    = total ? Math.round(done / total * 100) : 0;
+    const collapsed = state[`${phase.id}_collapsed`] ? 'collapsed' : '';
+
+    const div = document.createElement('div');
+    div.className = `phase phase-${phase.color} ${collapsed}`;
+    div.id = `phase-${phase.id}`;
+
+    div.innerHTML = `
+      <div class="phase-header" onclick="togglePhase('${phase.id}')">
+        <span class="phase-title">${phase.title}</span>
+        <span class="phase-timing">${phase.timing}</span>
+        <span class="phase-toggle">▾</span>
+      </div>
+      <div class="phase-progress">
+        <div class="bar-track" style="flex:1">
+          <div class="bar-fill" id="bar-${phase.id}" style="width:${pct}%"></div>
+        </div>
+        <span class="pct-label" id="lbl-${phase.id}">${done}/${total} &nbsp;(${pct}%)</span>
+      </div>
+      <div class="phase-body" id="body-${phase.id}">
+        ${phase.items.map((item, i) => {
+          const checked = state[`${phase.id}_${i}`] ? 'checked' : '';
+          const badge = item.tag === 'ml' ? '<span class="badge badge-ml">ML round</span>' : '';
+          return `
+            <label class="item ${checked}" id="item-${phase.id}-${i}">
+              <span class="cb-wrap">
+                <input type="checkbox" ${checked ? 'checked' : ''}
+                  onchange="toggle('${phase.id}', ${i}, this.checked)">
+              </span>
+              <span class="item-body">
+                <span class="item-label">${item.label}${badge}</span>
+                <span class="item-note">${item.note}</span>
+              </span>
+            </label>`;
+        }).join('')}
+      </div>`;
+
+    container.appendChild(div);
+  });
+}
+
+function renderQuestions() {
+  const container = document.getElementById('questions');
+  let html = `<div class="phase-header phase-purple" style="cursor:default;border-radius:0">
+    <span class="phase-title">Complexity knowledge — asked in every coding round</span>
+  </div>`;
+  let qNum = 0;
+  QUESTIONS.forEach(group => {
+    html += `<div class="q-group-label">${group.group}</div>`;
+    group.items.forEach(item => {
+      qNum++;
+      html += `<div class="q-item">
+        <div class="q-num">${qNum}</div>
+        <div class="q-body">
+          <div class="q-label">${item.q}</div>
+          <div class="q-note">${item.note}</div>
+        </div>
+      </div>`;
+    });
+  });
+  container.innerHTML = html;
+}
+
+function updateOverall() {
+  let total = 0, done = 0;
+  PHASES.forEach(phase => {
+    total += phase.items.length;
+    done  += phase.items.filter((_, i) => state[`${phase.id}_${i}`]).length;
+  });
+  const pct = total ? Math.round(done / total * 100) : 0;
+  document.getElementById('overall-fill').style.width = pct + '%';
+  document.getElementById('overall-count').textContent = `${done} / ${total} completed (${pct}%)`;
+}
+
+function updatePhaseBar(phaseId) {
+  const phase = PHASES.find(p => p.id === phaseId);
+  const total = phase.items.length;
+  const done  = phase.items.filter((_, i) => state[`${phaseId}_${i}`]).length;
+  const pct   = total ? Math.round(done / total * 100) : 0;
+  const bar = document.getElementById(`bar-${phaseId}`);
+  const lbl = document.getElementById(`lbl-${phaseId}`);
+  if (bar) bar.style.width = pct + '%';
+  if (lbl) lbl.innerHTML = `${done}/${total} &nbsp;(${pct}%)`;
+}
+
+// ── Actions ───────────────────────────────────────────────────────────────────
+function toggle(phaseId, idx, checked) {
+  state[`${phaseId}_${idx}`] = checked;
+  saveState(state);
+  const item = document.getElementById(`item-${phaseId}-${idx}`);
+  if (item) item.className = `item ${checked ? 'checked' : ''}`;
+  updatePhaseBar(phaseId);
+  updateOverall();
+}
+
+function togglePhase(phaseId) {
+  const ph = document.getElementById(`phase-${phaseId}`);
+  const nowCollapsed = ph.classList.toggle('collapsed');
+  state[`${phaseId}_collapsed`] = nowCollapsed;
+  saveState(state);
+}
+
+function expandAll() {
+  PHASES.forEach(p => {
+    state[`${p.id}_collapsed`] = false;
+    const el = document.getElementById(`phase-${p.id}`);
+    if (el) el.classList.remove('collapsed');
+  });
+  saveState(state);
+}
+
+function collapseAll() {
+  PHASES.forEach(p => {
+    state[`${p.id}_collapsed`] = true;
+    const el = document.getElementById(`phase-${p.id}`);
+    if (el) el.classList.add('collapsed');
+  });
+  saveState(state);
+}
+
+function resetAll() {
+  if (!confirm('Reset all progress? This cannot be undone.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  state = {};
+  renderPhases();
+  updateOverall();
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+renderPhases();
+renderQuestions();
+updateOverall();
+</script>
+</body>
+</html>
