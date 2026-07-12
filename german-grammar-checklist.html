@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>German Grammar Roadmap · A1 → B1</title>
+<style>
+  :root {
+    --paper: #f6f8fa;
+    --card: #ffffff;
+    --ink: #182338;
+    --ink-soft: #5b6778;
+    --line: #e3e8ef;
+    --a1: #2e7d5b;
+    --a2: #b4562e;
+    --b1: #3d5a99;
+    --gold: #c7952c;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    padding: 32px 16px 80px;
+    line-height: 1.5;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; }
+
+  header { text-align: center; margin-bottom: 8px; }
+  .eyebrow {
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(30px, 6vw, 44px);
+    font-weight: 700;
+    margin: 6px 0 4px;
+  }
+  h1 .lvl-a1 { color: var(--a1); }
+  h1 .lvl-a2 { color: var(--a2); }
+  h1 .lvl-b1 { color: var(--b1); }
+  .subtitle { color: #5a6577; font-size: 15px; }
+
+  .overall {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    margin: 24px 0 28px;
+  }
+  .overall-top {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 10px; font-size: 14px; color: #5a6577;
+  }
+  .overall-top strong { color: var(--ink); font-size: 16px; }
+  .bar {
+    height: 10px; background: #edf0f4; border-radius: 999px; overflow: hidden;
+  }
+  .bar > div {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--a1), var(--gold), var(--b1));
+    border-radius: 999px;
+    transition: width 0.4s ease;
+  }
+
+  details.level {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    margin-bottom: 18px;
+    overflow: hidden;
+  }
+  details.level[open] summary { border-bottom: 1px solid var(--line); }
+  summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 20px;
+    user-select: none;
+  }
+  summary::-webkit-details-marker { display: none; }
+  .badge {
+    font-family: Georgia, serif;
+    font-weight: 700; font-size: 18px;
+    color: #fff;
+    width: 48px; height: 48px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 12px;
+    flex-shrink: 0;
+  }
+  .lv-a1 .badge { background: var(--a1); }
+  .lv-a2 .badge { background: var(--a2); }
+  .lv-b1 .badge { background: var(--b1); }
+  .summary-text { flex: 1; }
+  .summary-text h2 { font-size: 17px; }
+  .summary-text p { font-size: 13px; color: #5a6577; }
+  .level-count {
+    font-size: 13px; color: #5a6577; white-space: nowrap;
+  }
+  .chev { transition: transform 0.2s; color: #9aa3b2; }
+  details[open] .chev { transform: rotate(90deg); }
+
+  .group { padding: 14px 20px 6px; }
+  .group h3 {
+    font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: #7a8496; margin-bottom: 8px;
+  }
+  label.item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 7px 4px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+  }
+  label.item:hover { background: #f2f5f9; }
+  label.item input {
+    width: 18px; height: 18px; margin-top: 2px;
+    accent-color: var(--gold);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  label.item.done span { color: #9aa3b2; text-decoration: line-through; }
+  .pad-bottom { height: 12px; }
+
+  .footer-note {
+    text-align: center; font-size: 13px; color: #8a93a3; margin-top: 26px;
+  }
+  .storage-warning {
+    display: none;
+    background: #fff6e5; border: 1px solid #f0d9a8; color: #7a5b16;
+    border-radius: 10px; padding: 10px 14px; font-size: 13px;
+    margin-bottom: 18px; text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Grammatik-Fortschritt · Ganesh</div>
+    <h1><span class="lvl-a1">A1</span> → <span class="lvl-a2">A2</span> → <span class="lvl-b1">B1</span></h1>
+    <p class="subtitle">Tick off each grammar topic as you master it. Your progress saves automatically in this browser.</p>
+  </header>
+
+  <div class="storage-warning" id="storageWarning">
+    Heads up: saving isn't available in this view. Download the file and open it in your browser so your ticks are remembered.
+  </div>
+
+  <div class="overall">
+    <div class="overall-top">
+      <strong>Overall progress</strong>
+      <span id="overallLabel">0 / 0 topics</span>
+    </div>
+    <div class="bar"><div id="overallBar"></div></div>
+  </div>
+
+  <div id="levels"></div>
+
+  <p class="footer-note">Viel Erfolg! 🇩🇪 — progress is stored locally on your device only.</p>
+</div>
+
+<script>
+const DATA = [
+  {
+    id: "a1", cls: "lv-a1", badge: "A1", title: "Beginner",
+    desc: "Foundations: present tense, nominative & accusative",
+    groups: [
+      { name: "Verbs & Tenses", items: [
+        "Present tense — regular verbs",
+        "Present tense — irregular verbs",
+        "Conjugation across all persons (ich, du, er/sie/es, wir, ihr, sie/Sie)",
+        "The verbs sein and haben",
+        "Separable verbs (basics)",
+        "Modal verbs (können, müssen, wollen, mögen, dürfen, sollen)",
+        "Imperative (command forms)",
+        "Perfect tense (Perfekt) — introduction"
+      ]},
+      { name: "Nouns, Articles & Cases", items: [
+        "Gender of nouns (der, die, das)",
+        "Definite and indefinite articles",
+        "Plural forms of nouns",
+        "Nominative case",
+        "Accusative case",
+        "Negation with nicht and kein"
+      ]},
+      { name: "Pronouns", items: [
+        "Personal pronouns (nominative & accusative)",
+        "Possessive articles (mein, dein, sein…)"
+      ]},
+      { name: "Sentence Structure", items: [
+        "Basic word order (verb in second position)",
+        "Yes/no questions and W-questions",
+        "Connectors: und, oder, aber, denn"
+      ]},
+      { name: "Prepositions", items: [
+        "Basic prepositions of place and time (in, an, auf, um, am, im)"
+      ]}
+    ]
+  },
+  {
+    id: "a2", cls: "lv-a2", badge: "A2", title: "Elementary",
+    desc: "Dative case, past tenses, adjective endings",
+    groups: [
+      { name: "Verbs & Tenses", items: [
+        "Perfect tense (Perfekt) in depth — haben vs. sein",
+        "Simple past (Präteritum) of sein, haben & modal verbs",
+        "Reflexive verbs",
+        "Verbs with fixed prepositions",
+        "Separable & inseparable verbs — in depth"
+      ]},
+      { name: "Cases", items: [
+        "Dative case",
+        "Verbs that take dative",
+        "Personal pronouns in dative"
+      ]},
+      { name: "Prepositions", items: [
+        "Prepositions with accusative only",
+        "Prepositions with dative only",
+        "Two-way prepositions (Wechselpräpositionen)"
+      ]},
+      { name: "Adjectives", items: [
+        "Adjective endings after definite articles",
+        "Adjective endings after indefinite articles",
+        "Adjective endings with no article",
+        "Comparative and superlative"
+      ]},
+      { name: "Sentence Structure", items: [
+        "Subordinate clauses with weil, dass, wenn",
+        "Conjunctions: deshalb, trotzdem",
+        "Indirect questions"
+      ]},
+      { name: "Other", items: [
+        "Ordinal numbers and dates",
+        "Konjunktiv II for polite requests (ich möchte, könnten Sie…)"
+      ]}
+    ]
+  },
+  {
+    id: "b1", cls: "lv-b1", badge: "B1", title: "Intermediate",
+    desc: "Genitive case, passive voice, complex clauses",
+    groups: [
+      { name: "Verbs & Tenses", items: [
+        "Simple past (Präteritum) of regular & irregular verbs",
+        "Past perfect (Plusquamperfekt)",
+        "Future tense (Futur I)",
+        "Passive voice — present",
+        "Passive voice — past",
+        "Konjunktiv II — hypotheticals, wishes, advice",
+        "Infinitive clauses with zu",
+        "Verbs with prepositional complements — in depth"
+      ]},
+      { name: "Cases", items: [
+        "Genitive case",
+        "Prepositions with genitive (wegen, während, trotz)",
+        "N-declension nouns (schwache Nomen)"
+      ]},
+      { name: "Sentence Structure", items: [
+        "Relative clauses & relative pronouns (all cases)",
+        "Clauses with obwohl, damit, um…zu",
+        "Clauses with bevor, nachdem, während",
+        "Clauses with seit/seitdem, bis, als/wenn",
+        "Two-part conjunctions (entweder…oder, zwar…aber, je…desto)",
+        "Indirect speech (introduction)"
+      ]},
+      { name: "Adjectives & Participles", items: [
+        "Adjective declension — full mastery across all cases",
+        "Participles as adjectives (Partizip I & II)",
+        "Adjectives derived from verbs and nouns"
+      ]},
+      { name: "Other", items: [
+        "Word formation (prefixes, suffixes, compound nouns)",
+        "The pronoun es and its functions",
+        "Pronominal adverbs (darauf, damit, worüber…)"
+      ]}
+    ]
+  }
+];
+
+// ---- storage with graceful fallback ----
+const KEY = "german-grammar-checklist-v1";
+let memoryStore = {};
+let storageOk = true;
+function loadState() {
+  try {
+    const raw = localStorage.getItem(KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) {
+    storageOk = false;
+    document.getElementById("storageWarning").style.display = "block";
+    return memoryStore;
+  }
+}
+function saveState(state) {
+  if (!storageOk) { memoryStore = state; return; }
+  try { localStorage.setItem(KEY, JSON.stringify(state)); }
+  catch (e) {
+    storageOk = false;
+    memoryStore = state;
+    document.getElementById("storageWarning").style.display = "block";
+  }
+}
+
+let state = {};
+try { state = loadState(); } catch(e) { state = {}; }
+
+// ---- render ----
+const container = document.getElementById("levels");
+let totalItems = 0;
+
+DATA.forEach((level, li) => {
+  const det = document.createElement("details");
+  det.className = "level " + level.cls;
+  if (li === 0) det.open = true;
+
+  const sum = document.createElement("summary");
+  sum.innerHTML =
+    '<div class="badge">' + level.badge + '</div>' +
+    '<div class="summary-text"><h2>' + level.badge + ' · ' + level.title + '</h2>' +
+    '<p>' + level.desc + '</p></div>' +
+    '<span class="level-count" id="count-' + level.id + '"></span>' +
+    '<span class="chev">▸</span>';
+  det.appendChild(sum);
+
+  level.groups.forEach((group, gi) => {
+    const g = document.createElement("div");
+    g.className = "group";
+    const h = document.createElement("h3");
+    h.textContent = group.name;
+    g.appendChild(h);
+
+    group.items.forEach((text, ii) => {
+      totalItems++;
+      const id = level.id + "-" + gi + "-" + ii;
+      const label = document.createElement("label");
+      label.className = "item";
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.checked = !!state[id];
+      if (cb.checked) label.classList.add("done");
+      const span = document.createElement("span");
+      span.textContent = text;
+      cb.addEventListener("change", () => {
+        state[id] = cb.checked;
+        label.classList.toggle("done", cb.checked);
+        saveState(state);
+        refreshCounts();
+      });
+      label.appendChild(cb);
+      label.appendChild(span);
+      g.appendChild(label);
+    });
+    det.appendChild(g);
+  });
+
+  const pad = document.createElement("div");
+  pad.className = "pad-bottom";
+  det.appendChild(pad);
+  container.appendChild(det);
+});
+
+function refreshCounts() {
+  let doneAll = 0;
+  DATA.forEach(level => {
+    let done = 0, total = 0;
+    level.groups.forEach((group, gi) => {
+      group.items.forEach((_, ii) => {
+        total++;
+        if (state[level.id + "-" + gi + "-" + ii]) done++;
+      });
+    });
+    doneAll += done;
+    document.getElementById("count-" + level.id).textContent = done + " / " + total;
+  });
+  document.getElementById("overallLabel").textContent = doneAll + " / " + totalItems + " topics";
+  document.getElementById("overallBar").style.width =
+    (totalItems ? (doneAll / totalItems) * 100 : 0) + "%";
+}
+refreshCounts();
+</script>
+</body>
+</html>
