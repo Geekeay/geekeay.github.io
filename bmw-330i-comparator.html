@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMW 330i Touring — Equipment Comparator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --asphalt:#1b1f26;
+  --paper:#f7f8fa;
+  --card:#ffffff;
+  --ink:#22262e;
+  --muted:#6b7280;
+  --line:#e4e7ec;
+  --m-blue:#0d5ba5;
+  --m-lightblue:#5aa6e0;
+  --m-red:#d5232e;
+  --kombi:#0d5ba5;
+  --allrad:#0f7a68;
+  --velbert:#b5232e;
+  --ok:#1a8a4d;
+  --warn:#c07a10;
+  --no:#b9bec7;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Barlow',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.55}
+.stripes{height:6px;display:flex}
+.stripes span{flex:1}
+.stripes .s1{background:var(--m-lightblue)}
+.stripes .s2{background:var(--m-blue)}
+.stripes .s3{background:var(--m-red)}
+header{background:var(--asphalt);color:#fff;padding:2.2rem 1.25rem 2rem}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-family:'Barlow Condensed';font-weight:600;letter-spacing:.18em;text-transform:uppercase;font-size:.8rem;color:var(--m-lightblue)}
+h1{font-family:'Barlow Condensed';font-weight:700;font-size:clamp(1.9rem,5vw,3rem);line-height:1.05;margin:.35rem 0 .5rem}
+header p{color:#aeb4bf;max-width:640px;font-size:.98rem}
+.cars{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;max-width:960px;margin:-1.4rem auto 1.6rem;padding:0 1.25rem}
+.carcard{background:var(--card);border-radius:12px;border:1px solid var(--line);border-top:5px solid;padding:1rem 1.1rem;box-shadow:0 4px 14px rgba(20,25,35,.06)}
+.carcard.k{border-top-color:var(--kombi)}
+.carcard.a{border-top-color:var(--allrad)}
+.carcard.v{border-top-color:var(--velbert)}
+.carcard h2{font-family:'Barlow Condensed';font-weight:600;font-size:1.25rem;display:flex;align-items:baseline;gap:8px}
+.tag{font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:20px;color:#fff}
+.k .tag{background:var(--kombi)}.a .tag{background:var(--allrad)}.v .tag{background:var(--velbert)}
+.carcard dl{font-size:.84rem;color:var(--muted);margin-top:.5rem;display:grid;grid-template-columns:auto 1fr;gap:2px 10px}
+.carcard dd{color:var(--ink);font-weight:500;text-align:right}
+main{max-width:960px;margin:0 auto;padding:0 1.25rem 3rem}
+.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.9rem 1.1rem;margin-bottom:1rem;box-shadow:0 2px 8px rgba(20,25,35,.04)}
+.controls label{font-size:.82rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+select{font-family:'Barlow';font-size:.95rem;padding:.5rem .7rem;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);min-width:180px}
+select:focus{outline:2px solid var(--m-blue);outline-offset:1px}
+.count{margin-left:auto;font-family:'Barlow Condensed';font-weight:600;font-size:1.05rem;color:var(--m-blue)}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:.82rem;color:var(--muted);margin:0 .2rem 1.1rem}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:1px}
+.dot.ok{background:var(--ok)}.dot.no{background:var(--no)}.dot.wn{background:var(--warn)}
+.cat{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:1.1rem;overflow:hidden;box-shadow:0 2px 8px rgba(20,25,35,.04)}
+.cat>h3{font-family:'Barlow Condensed';font-weight:600;font-size:1.15rem;letter-spacing:.02em;padding:.75rem 1.1rem;background:linear-gradient(90deg,var(--asphalt) 0%,#2a3140 100%);color:#fff}
+.tblhead,.row{display:grid;grid-template-columns:minmax(0,1fr) 64px 64px 64px;gap:4px;align-items:center;padding:.5rem 1.1rem}
+.tblhead{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);background:#fbfcfe}
+.tblhead div:not(:first-child){text-align:center}
+.tblhead .ck{color:var(--kombi)}.tblhead .ca{color:var(--allrad)}.tblhead .cv{color:var(--velbert)}
+.row{border-bottom:1px solid var(--line);font-size:.92rem}
+.row:last-child{border-bottom:none}
+.row:hover{background:#f4f7fb}
+.cell{text-align:center;font-size:1rem;font-weight:700}
+.cell.ok{color:var(--ok)}.cell.no{color:var(--no)}.cell.wn{color:var(--warn)}
+.cell.sel{background:#eaf2fb;border-radius:8px;padding:2px 0}
+.note{font-size:.76rem;color:var(--warn);margin-top:2px;line-height:1.35}
+.empty{padding:1.4rem;text-align:center;color:var(--muted)}
+footer{background:var(--asphalt);color:#8b92a0;font-size:.8rem;padding:1.2rem;text-align:center}
+footer b{color:#d2d6de}
+@media(max-width:560px){
+  .tblhead,.row{grid-template-columns:minmax(0,1fr) 44px 44px 44px;padding:.5rem .7rem}
+  .cat>h3{padding:.65rem .7rem}
+  .count{width:100%;margin-left:0}
+}
+@media(prefers-reduced-motion:no-preference){
+  .cat{transition:transform .15s ease}
+}
+</style>
+</head>
+<body>
+<div class="stripes" aria-hidden="true"><span class="s1"></span><span class="s2"></span><span class="s3"></span></div>
+<header>
+  <div class="wrap">
+    <div class="eyebrow">G21 · 330i Touring · shortlist</div>
+    <h1>Equipment comparator</h1>
+    <p>Three candidates, one spec sheet. Pick a car and a view to see what it has, what only it has, and where the three genuinely differ.</p>
+  </div>
+</header>
+
+<div class="cars">
+  <div class="carcard k"><h2>Kombi <span class="tag">RWD</span></h2>
+    <dl><dt>Dealer</dt><dd>Kruft, Oberhausen</dd><dt>EZ / km</dt><dd>07/23 · 46,959</dd><dt>Price</dt><dd>€36,499</dd></dl></div>
+  <div class="carcard a"><h2>Allrad <span class="tag">xDrive</span></h2>
+    <dl><dt>Dealer</dt><dd>Fett &amp; Wirtz, Moers</dd><dt>EZ / km</dt><dd>09/25 · 24,990</dd><dt>Price</dt><dd>€39,731</dd></dl></div>
+  <div class="carcard v"><h2>Velbert <span class="tag">RWD</span></h2>
+    <dl><dt>Dealer</dt><dd>Procar, Velbert</dd><dt>EZ / km</dt><dd>03/23 · 51,300</dd><dt>Price</dt><dd>€39,440</dd></dl></div>
+</div>
+
+<main>
+  <div class="controls">
+    <label for="car">Car</label>
+    <select id="car">
+      <option value="k">Kombi</option>
+      <option value="a">Allrad</option>
+      <option value="v">Velbert</option>
+    </select>
+    <label for="mode">View</label>
+    <select id="mode">
+      <option value="all">All equipment</option>
+      <option value="in">Available in selected car</option>
+      <option value="only">Only in selected car</option>
+      <option value="missing">Missing from selected car</option>
+      <option value="mismatch">Mismatched across cars</option>
+      <option value="common">Common to all three</option>
+    </select>
+    <span class="count" id="count"></span>
+  </div>
+
+  <div class="legend">
+    <span><span class="dot ok"></span>Fitted</span>
+    <span><span class="dot no"></span>Not fitted</span>
+    <span><span class="dot wn"></span>Unconfirmed — verify with dealer</span>
+  </div>
+
+  <div id="list"></div>
+</main>
+
+<footer>Compiled from dealer listings, July 2026 · Amber items require written confirmation from the dealer · <b>Nothing here replaces the build sheet.</b></footer>
+
+<script>
+var DATA=[
+{cat:"Drivetrain and chassis",items:[
+["Rear-wheel drive",1,0,1],
+["xDrive all-wheel drive",0,1,0],
+["Sportdifferential",2,0,0,"In Kruft's PDF exposé but absent from the portal listing — confirm the option code from the build sheet before relying on it"],
+["Adaptives M Fahrwerk (adaptive dampers)",0,1,0],
+["Fixed M Sportfahrwerk",1,0,1],
+["Variable Sportlenkung",1,1,1],
+["Steptronic Sport 8-speed with paddles",1,1,1],
+["M Sportbremse",0,1,1],
+["M Sportbremse red high-gloss",0,0,1]
+]},
+{cat:"Trim and exterior",items:[
+["M Sportpaket",1,1,1],
+["M Sportpaket Pro",0,0,1],
+["M Aerodynamikpaket",1,1,1],
+["Shadow Line Hochglanz",1,1,1],
+["Shadow Line extended / M Leuchten",0,0,1],
+["Individual Exterieur Line Aluminium satiniert",1,0,0],
+["Metallic paint",1,0,1],
+["Roof rails",1,1,1],
+["AHK swiveling towbar",1,0,1],
+["18-inch wheels",1,0,0],
+["19-inch M wheels, Mischbereifung",0,1,1],
+["Runflat tyres",1,1,1]
+]},
+{cat:"Interior and seats",items:[
+["Alcantara/Sensatec, blue stitching",1,0,1],
+["M PerformTex sport fabric",0,1,0],
+["Sport seats front",1,1,1],
+["Electric seat adjustment",1,1,1],
+["Memory function driver seat",1,0,0],
+["Heated front seats",1,1,1],
+["Lumbar support",1,1,1],
+["Backrest width adjustment",1,1,1],
+["Anthracite headliner",1,1,1],
+["Ambient lighting",1,1,1],
+["3-zone automatic climate",1,1,1],
+["Rear sun blinds on doors",0,1,0]
+]},
+{cat:"Display and audio",items:[
+["Live Cockpit Professional",1,1,1],
+["Head-up display",1,1,1],
+["Curved Display (LCI)",0,1,2,"Velbert: Baujahr 2022 / EZ 03-2023 straddles the LCI changeover — verify in person"],
+["HiFi speaker system",1,1,1],
+["Harman Kardon surround",0,0,1],
+["Wireless charging",1,1,1],
+["CarPlay and Android Auto",1,1,1],
+["Personal eSIM / WLAN hotspot",1,1,1]
+]},
+{cat:"Assistance and access",items:[
+["ACC Stop&Go (adaptive cruise)",1,1,1],
+["Driving Assistant with Active Guard Plus",1,1,1],
+["Lane change / blind spot assist",1,1,1],
+["Cross-traffic alert",1,1,1],
+["Parking Assistant",1,1,1],
+["Parking Assistant Plus / 360° camera",0,1,0],
+["Reversing camera",1,1,1],
+["Komfortzugang (comfort access)",1,1,1],
+["Adaptive LED headlights",1,1,1],
+["Glare-free high beam",1,1,1],
+["Alarm system",1,1,1],
+["Electric tailgate",1,1,1]
+]},
+{cat:"Packages and other",items:[
+["Comfort Paket",1,1,0],
+["Innovationspaket",1,1,1],
+["Entertainment Paket",1,0,1],
+["Ablagenpaket (storage)",1,1,1],
+["Acoustic glazing",1,1,1],
+["Tinted rear glass",1,1,1],
+["Gepäckraumpaket / cargo net",1,1,1],
+["Trailer load rating 1,800 kg",0,1,0]
+]}
+];
+function mark(v,sel){
+  var c=v===1?'ok':(v===2?'wn':'no');
+  var s=v===1?'✓':(v===2?'?':'✕');
+  return '<div class="cell '+c+(sel?' sel':'')+'">'+s+'</div>';
+}
+function render(){
+  var car=document.getElementById('car').value;
+  var mode=document.getElementById('mode').value;
+  var ci={k:0,a:1,v:2}[car];
+  var html='',total=0;
+  DATA.forEach(function(g){
+    var rows='';
+    g.items.forEach(function(it){
+      var name=it[0],vals=[it[1],it[2],it[3]],note=it[4];
+      var mine=vals[ci];var others=vals.filter(function(_,i){return i!==ci;});
+      var allSame=(vals[0]===vals[1]&&vals[1]===vals[2]);
+      var show=false;
+      if(mode==='all')show=true;
+      else if(mode==='in')show=(mine>=1);
+      else if(mode==='only')show=(mine>=1&&others[0]===0&&others[1]===0);
+      else if(mode==='missing')show=(mine===0&&(others[0]>=1||others[1]>=1));
+      else if(mode==='mismatch')show=!allSame;
+      else if(mode==='common')show=(vals[0]===1&&vals[1]===1&&vals[2]===1);
+      if(!show)return;
+      total++;
+      var n=note?'<div class="note">'+note+'</div>':'';
+      rows+='<div class="row"><div>'+name+n+'</div>'+mark(vals[0],ci===0)+mark(vals[1],ci===1)+mark(vals[2],ci===2)+'</div>';
+    });
+    if(rows){
+      html+='<section class="cat"><h3>'+g.cat+'</h3>'
+        +'<div class="tblhead"><div></div><div class="ck">Kombi</div><div class="ca">Allrad</div><div class="cv">Velbert</div></div>'
+        +rows+'</section>';
+    }
+  });
+  document.getElementById('list').innerHTML=html||'<div class="cat"><p class="empty">No items match this view.</p></div>';
+  document.getElementById('count').textContent=total+' items';
+}
+document.getElementById('car').addEventListener('change',render);
+document.getElementById('mode').addEventListener('change',render);
+render();
+</script>
+</body>
+</html>
