@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMW 330i Touring — Decision Hierarchies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --asphalt:#1b1f26;
+  --paper:#f7f8fa;
+  --card:#ffffff;
+  --ink:#22262e;
+  --muted:#6b7280;
+  --line:#e4e7ec;
+  --m-blue:#0d5ba5;
+  --m-lightblue:#5aa6e0;
+  --m-red:#d5232e;
+  --kombi:#0d5ba5;
+  --allrad:#0f7a68;
+  --velbert:#b5232e;
+  --gold:#c07a10;
+  --confirmed:#1a8a4d;
+  --absent:#b5232e;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Barlow',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.55}
+.stripes{height:6px;display:flex}
+.stripes span{flex:1}
+.stripes .s1{background:var(--m-lightblue)}
+.stripes .s2{background:var(--m-blue)}
+.stripes .s3{background:var(--m-red)}
+header{background:var(--asphalt);color:#fff;padding:2.2rem 1.25rem 2rem}
+.wrap{max-width:1000px;margin:0 auto}
+.eyebrow{font-family:'Barlow Condensed';font-weight:600;letter-spacing:.18em;text-transform:uppercase;font-size:.8rem;color:var(--m-lightblue)}
+h1{font-family:'Barlow Condensed';font-weight:700;font-size:clamp(1.9rem,5vw,3rem);line-height:1.05;margin:.35rem 0 .5rem}
+header p{color:#aeb4bf;max-width:680px;font-size:.98rem}
+main{max-width:1000px;margin:0 auto;padding:1.6rem 1.25rem 3rem}
+.scenario{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:2rem;overflow:hidden;box-shadow:0 4px 14px rgba(20,25,35,.06)}
+.scen-head{padding:1rem 1.25rem;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.scenario.a .scen-head{background:linear-gradient(90deg,#0f3d2b,#1a8a4d)}
+.scenario.b .scen-head{background:linear-gradient(90deg,#5c1218,#b5232e)}
+.scen-head h2{font-family:'Barlow Condensed';font-weight:700;font-size:1.5rem;color:#fff;letter-spacing:.02em}
+.badge{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.18);color:#fff}
+.tbl{width:100%;border-collapse:collapse;font-size:.92rem}
+.tbl th{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;padding:.6rem .9rem;border-bottom:1px solid var(--line);background:#fbfcfe}
+.tbl td{padding:.85rem .9rem;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:#f4f7fb}
+.rank{font-family:'Barlow Condensed';font-weight:700;font-size:1.6rem;width:44px;text-align:center;color:var(--muted)}
+tr.p1 .rank{color:var(--gold)}
+.carname{font-weight:600;white-space:nowrap}
+.carname .pill{display:inline-block;font-size:.65rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:20px;color:#fff;margin-left:6px;vertical-align:1px}
+.pill.k{background:var(--kombi)}.pill.a{background:var(--allrad)}.pill.v{background:var(--velbert)}.pill.o{background:var(--muted)}
+.sub{font-size:.8rem;color:var(--muted);font-weight:400;margin-top:2px}
+.price{white-space:nowrap;font-weight:500}
+.price .target{display:block;font-size:.8rem;color:var(--m-blue);font-weight:600}
+.rating{font-family:'Barlow Condensed';font-weight:700;font-size:1.3rem;white-space:nowrap}
+tr.p1 .rating{color:var(--confirmed)}
+.why{font-size:.87rem;color:#3a3f49;max-width:420px}
+.path{padding:.9rem 1.25rem;font-size:.88rem;background:#fbfcfe;border-top:1px solid var(--line)}
+.path b{font-family:'Barlow Condensed';font-weight:600;letter-spacing:.05em;text-transform:uppercase;font-size:.8rem;color:var(--muted);display:block;margin-bottom:2px}
+.keycell{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:12px;padding:1.1rem 1.25rem;margin-bottom:2rem;box-shadow:0 2px 8px rgba(20,25,35,.04)}
+.keycell h3{font-family:'Barlow Condensed';font-weight:600;font-size:1.2rem;margin-bottom:.3rem;color:var(--gold)}
+.keycell p{font-size:.92rem;color:#3a3f49}
+footer{background:var(--asphalt);color:#8b92a0;font-size:.8rem;padding:1.2rem;text-align:center}
+footer b{color:#d2d6de}
+@media(max-width:720px){
+  .tbl thead{display:none}
+  .tbl,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%}
+  .tbl tr{border-bottom:2px solid var(--line);padding:.4rem 0}
+  .tbl td{border:none;padding:.3rem .9rem}
+  .rank{width:auto;text-align:left;font-size:1.2rem}
+  .why{max-width:none}
+}
+</style>
+</head>
+<body>
+<div class="stripes" aria-hidden="true"><span class="s1"></span><span class="s2"></span><span class="s3"></span></div>
+<header>
+  <div class="wrap">
+    <div class="eyebrow">G21 · 330i Touring · decision matrix</div>
+    <h1>Two hierarchies, one open question</h1>
+    <p>The ranking of all three candidates depends on a single line of Kombi's build sheet: whether option Sportdifferential is fitted. Both worlds, fully priced, below.</p>
+  </div>
+</header>
+
+<main>
+  <section class="scenario a">
+    <div class="scen-head"><h2>Scenario A</h2><span class="badge">Sportdifferential confirmed in Kombi</span></div>
+    <table class="tbl">
+      <thead><tr><th></th><th>Car</th><th>Price / target</th><th>Rating</th><th>Why this position</th></tr></thead>
+      <tbody>
+        <tr class="p1">
+          <td class="rank">1</td>
+          <td class="carname">Kombi<span class="pill k">RWD</span><div class="sub">Sportdiff · Alcantara · AHK · BPS ~24 mo · Kruft, 35 km</div></td>
+          <td class="price">€36,499<span class="target">Target €35,300–36,000</span></td>
+          <td class="rating">8.5</td>
+          <td class="why">Unique Sportdiff + BPS combination, cheapest car on the board, right drivetrain, Mineralweiß metallic. Buy after passing the bad-road ride test and the Halter / ex-rental question.</td>
+        </tr>
+        <tr>
+          <td class="rank">2</td>
+          <td class="carname">Allrad / Geldern twins<span class="pill a">xDrive</span><div class="sub">Adaptive M Fahrwerk · BPS ~38 mo · 1 owner</div></td>
+          <td class="price">€39,731 &amp; €40,571<span class="target">Target €38,500–38,800 either</span></td>
+          <td class="rating">7.5–8</td>
+          <td class="why">The comfort rescue: only adaptive dampers on the board, longest coverage, newest. Activate only if Kombi's fixed suspension fails your own back-to-back test.</td>
+        </tr>
+        <tr>
+          <td class="rank">3</td>
+          <td class="carname">Velbert<span class="pill v">RWD</span><div class="sub">M Sport Pro · Harman Kardon · 1 owner · EUROPlus ~12 mo · 30 km</div></td>
+          <td class="price">€39,440<span class="target">Cap ≤ €38,000</span></td>
+          <td class="rating">7</td>
+          <td class="why">Richest trim and cleanest history, but €3k over Kombi without the diff and with half the warranty of anyone. Test-drive control specimen and second X1 bid; buy only if both above fall through.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="path"><b>Decision path A</b>Kruft visit → ride test passes → sign at ≤ €36,000. Ride test fails → Moers or Geldern, whichever twin lands at €38.5–38.8k.</div>
+  </section>
+
+  <section class="scenario b">
+    <div class="scen-head"><h2>Scenario B</h2><span class="badge">Sportdifferential absent from Kombi</span></div>
+    <table class="tbl">
+      <thead><tr><th></th><th>Car</th><th>Price / target</th><th>Rating</th><th>Why this position</th></tr></thead>
+      <tbody>
+        <tr class="p1">
+          <td class="rank">1</td>
+          <td class="carname">Allrad / Geldern twins<span class="pill a">xDrive</span><div class="sub">Adaptive M Fahrwerk · BPS ~38 mo · 1 owner</div></td>
+          <td class="price">€39,731 &amp; €40,571<span class="target">Target €38,500–38,800 either</span></td>
+          <td class="rating">8</td>
+          <td class="why">With the diff gone, RWD's hardware edge vanishes — adaptive dampers, triple-length warranty, one-owner histories, and two years of youth now lead outright. Branch-vs-branch competition lands the price.</td>
+        </tr>
+        <tr>
+          <td class="rank">2</td>
+          <td class="carname">Kombi<span class="pill k">RWD</span><div class="sub">Alcantara · AHK · BPS ~24 mo — diff-less, ex-rental, 2 owners</div></td>
+          <td class="price">Renegotiate<span class="target">€34,500–35,000 — exposé advertised an option the car lacks</span></td>
+          <td class="rating">7.5</td>
+          <td class="why">Best warranty-per-euro among RWD options. A defensible pragmatic buy at the corrected price if you prefer pure RWD and the firm ride suits you — but no longer special, and never at €36,499.</td>
+        </tr>
+        <tr>
+          <td class="rank">3</td>
+          <td class="carname">Velbert<span class="pill v">RWD</span><div class="sub">M Sport Pro · Harman Kardon · 1 owner · EUROPlus ~12 mo</div></td>
+          <td class="price">€39,440<span class="target">Hard cap ≤ €38,000</span></td>
+          <td class="rating">7</td>
+          <td class="why">Trim garnish paid for with coverage: the €3k premium over corrected-Kombi buys Pro + HK but costs a year of warranty, with EUROPlus's 100k-km full-coverage cap looming at its 51k start. Last resort.</td>
+        </tr>
+        <tr>
+          <td class="rank">+</td>
+          <td class="carname">Fresh market sweep<span class="pill o">Option</span><div class="sub">mobile.de search: "330i Sportdifferential"</div></td>
+          <td class="price">—</td>
+          <td class="rating">—</td>
+          <td class="why">The diff shaped this whole search; one sweep before settling is cheap. Franken proved they surface. Your call: option vs. closure.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="path"><b>Decision path B</b>Confront Kruft with the exposé discrepancy → they correct to ~€34.5–35k and the ride suits you → still viable. Otherwise → twins at €38.5–38.8k, test-driving Allrad to settle the xDrive character question.</div>
+  </section>
+
+  <div class="keycell">
+    <h3>The one cell that moves everything</h3>
+    <p>Kombi's row. Same car, same dealer — €36,000 crown jewel in one world, €34,500 commodity in the other, decided by a single line on a build-sheet printout. That email answer outranks every other open item; neither hierarchy should be acted on until it lands in writing.</p>
+  </div>
+</main>
+
+<footer>Compiled July 2026 · Prices are asking prices from dealer listings · <b>Confirm the Sportdifferential from the build sheet before acting.</b></footer>
+</body>
+</html>
