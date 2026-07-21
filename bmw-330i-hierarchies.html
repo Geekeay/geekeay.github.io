@@ -44,22 +44,27 @@ main{max-width:1000px;margin:0 auto;padding:1.6rem 1.25rem 3rem}
 .scenario.b .scen-head{background:linear-gradient(90deg,#5c1218,#b5232e)}
 .scen-head h2{font-family:'Barlow Condensed';font-weight:700;font-size:1.5rem;color:#fff;letter-spacing:.02em}
 .badge{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.18);color:#fff}
-.tbl{width:100%;border-collapse:collapse;font-size:.92rem}
+.tbl{width:100%;border-collapse:collapse;font-size:.92rem;table-layout:fixed}
+.tbl col.c-rank{width:44px}
+.tbl col.c-car{width:24%}
+.tbl col.c-price{width:17%}
+.tbl col.c-rating{width:8%}
+.tbl col.c-why{width:auto}
 .tbl th{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;padding:.6rem .9rem;border-bottom:1px solid var(--line);background:#fbfcfe}
 .tbl td{padding:.85rem .9rem;border-bottom:1px solid var(--line);vertical-align:top}
 .tbl tr:last-child td{border-bottom:none}
 .tbl tr:hover td{background:#f4f7fb}
 .rank{font-family:'Barlow Condensed';font-weight:700;font-size:1.6rem;width:44px;text-align:center;color:var(--muted)}
 tr.p1 .rank{color:var(--gold)}
-.carname{font-weight:600;white-space:nowrap}
+.carname{font-weight:600}
 .carname .pill{display:inline-block;font-size:.65rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:20px;color:#fff;margin-left:6px;vertical-align:1px}
 .pill.k{background:var(--kombi)}.pill.a{background:var(--allrad)}.pill.v{background:var(--velbert)}.pill.o{background:var(--muted)}
 .sub{font-size:.8rem;color:var(--muted);font-weight:400;margin-top:2px}
-.price{white-space:nowrap;font-weight:500}
+.price{font-weight:500}
 .price .target{display:block;font-size:.8rem;color:var(--m-blue);font-weight:600}
 .rating{font-family:'Barlow Condensed';font-weight:700;font-size:1.3rem;white-space:nowrap}
 tr.p1 .rating{color:var(--confirmed)}
-.why{font-size:.87rem;color:#3a3f49;max-width:420px}
+.why{font-size:.87rem;color:#3a3f49}
 .path{padding:.9rem 1.25rem;font-size:.88rem;background:#fbfcfe;border-top:1px solid var(--line)}
 .path b{font-family:'Barlow Condensed';font-weight:600;letter-spacing:.05em;text-transform:uppercase;font-size:.8rem;color:var(--muted);display:block;margin-bottom:2px}
 .keycell{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:12px;padding:1.1rem 1.25rem;margin-bottom:2rem;box-shadow:0 2px 8px rgba(20,25,35,.04)}
@@ -68,6 +73,8 @@ tr.p1 .rating{color:var(--confirmed)}
 footer{background:var(--asphalt);color:#8b92a0;font-size:.8rem;padding:1.2rem;text-align:center}
 footer b{color:#d2d6de}
 @media(max-width:720px){
+  .tbl{table-layout:auto}
+  .tbl colgroup{display:none}
   .tbl thead{display:none}
   .tbl,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%}
   .tbl tr{border-bottom:2px solid var(--line);padding:.4rem 0}
@@ -90,7 +97,7 @@ footer b{color:#d2d6de}
 <main>
   <section class="scenario a">
     <div class="scen-head"><h2>Scenario A</h2><span class="badge">Sportdifferential confirmed in Kombi</span></div>
-    <table class="tbl">
+    <table class="tbl"><colgroup><col class="c-rank"><col class="c-car"><col class="c-price"><col class="c-rating"><col class="c-why"></colgroup>
       <thead><tr><th></th><th>Car</th><th>Price / target</th><th>Rating</th><th>Why this position</th></tr></thead>
       <tbody>
         <tr class="p1">
@@ -121,7 +128,7 @@ footer b{color:#d2d6de}
 
   <section class="scenario b">
     <div class="scen-head"><h2>Scenario B</h2><span class="badge">Sportdifferential absent from Kombi</span></div>
-    <table class="tbl">
+    <table class="tbl"><colgroup><col class="c-rank"><col class="c-car"><col class="c-price"><col class="c-rating"><col class="c-why"></colgroup>
       <thead><tr><th></th><th>Car</th><th>Price / target</th><th>Rating</th><th>Why this position</th></tr></thead>
       <tbody>
         <tr class="p1">
